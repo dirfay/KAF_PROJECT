@@ -1,0 +1,197 @@
+{% extends "base.html" %}
+
+{% block title %}Освітні програми — Кафедра СШІАД ТНТУ{% endblock %}
+{% block meta_description %}Опис освітніх програм кафедри: бакалаврат, магістратура, штучний інтелект, системний аналіз
+та аналіз даних.{% endblock %}
+
+{% block content %}
+{% set programs = content.programs if content is defined and content.programs is defined else [] %}
+
+<article class="programs-modern-page">
+	<section class="programs-cover" aria-labelledby="programs-cover-title">
+		<div class="programs-cover-content">
+			<p class="programs-eyebrow">Освітні програми</p>
+
+			<h1 id="programs-cover-title" class="programs-cover-title">
+				Підготовка фахівців у сфері штучного інтелекту та аналізу даних
+			</h1>
+
+			<p class="programs-cover-lead">
+				Кафедра систем Штучного Інтелекту та Аналізу Даних пропонує освітні програми,
+				орієнтовані на системний аналіз, програмування, машинне навчання,
+				аналіз даних та інтелектуальні інформаційні системи.
+			</p>
+
+			<div class="programs-cover-actions">
+				<a class="btn" href="{{ url_for('abiturients') }}">Інформація для вступників</a>
+				<a class="btn btn-secondary" href="{{ url_for('contacts') }}">Зв’язатися з кафедрою</a>
+			</div>
+		</div>
+
+		<div class="programs-cover-aside" aria-label="Коротка інформація про навчання">
+			<div class="programs-stat-card">
+				<span class="programs-stat-number">{{ programs | length if programs else 0 }}</span>
+				<span class="programs-stat-label">освітні програми у сховищі знань</span>
+			</div>
+
+			<div class="programs-stat-card">
+				<span class="programs-stat-number">AI</span>
+				<span class="programs-stat-label">штучний інтелект і аналіз даних</span>
+			</div>
+
+			<div class="programs-stat-card">
+				<span class="programs-stat-number">IT</span>
+				<span class="programs-stat-label">практична підготовка для цифрової сфери</span>
+			</div>
+		</div>
+	</section>
+
+	<section class="programs-section" aria-labelledby="programs-list-heading">
+		<div class="programs-section-header">
+			<p class="programs-section-kicker">Перелік програм</p>
+			<h2 id="programs-list-heading">Актуальні освітні програми кафедри</h2>
+			<p>
+				Інформація про програми завантажується зі структурованого JSON-сховища знань
+				і може оновлюватися через адміністративну панель.
+			</p>
+		</div>
+
+		{% if programs %}
+		<div class="programs-cards-grid">
+			{% for program in programs %}
+			<article class="program-card-modern">
+				<div class="program-card-head">
+					<span class="program-level-badge">
+						{{ program.level if program.level is defined else "Рівень не вказано" }}
+					</span>
+				</div>
+
+				<h3>{{ program.title if program.title is defined else "Освітня програма" }}</h3>
+
+				<p class="program-description">
+					{{ program.description if program.description is defined else "Опис освітньої програми буде додано
+					пізніше." }}
+				</p>
+
+				{% if program.keywords is defined and program.keywords %}
+				<div class="program-keywords" aria-label="Ключові напрями програми">
+					{% for keyword in program.keywords[:8] %}
+					<span class="program-keyword">{{ keyword }}</span>
+					{% endfor %}
+				</div>
+				{% endif %}
+
+				<div class="program-card-footer">
+					<a class="program-more-link" href="{{ url_for('abiturients') }}">
+						Умови вступу →
+					</a>
+				</div>
+			</article>
+			{% endfor %}
+		</div>
+		{% else %}
+		<div class="program-empty-card">
+			<h3>Інформація тимчасово недоступна</h3>
+			<p>
+				У сховищі знань поки не додано детальний перелік освітніх програм.
+				Після наповнення JSON-файлу дані автоматично з’являться на цій сторінці.
+			</p>
+		</div>
+		{% endif %}
+	</section>
+
+	<section class="programs-section" aria-labelledby="study-heading">
+		<div class="programs-section-header">
+			<p class="programs-section-kicker">Зміст навчання</p>
+			<h2 id="study-heading">Що вивчають студенти</h2>
+			<p>
+				Навчання поєднує фундаментальну підготовку з прикладними цифровими технологіями.
+			</p>
+		</div>
+
+		<div class="study-grid">
+			<div class="study-card">
+				<h3>Програмування</h3>
+				<p>
+					Студенти опановують алгоритмізацію, вебтехнології, розробку інформаційних систем
+					та роботу з прикладним програмним забезпеченням.
+				</p>
+			</div>
+
+			<div class="study-card">
+				<h3>Аналіз даних</h3>
+				<p>
+					Окрема увага приділяється збору, структуруванню, обробці та інтерпретації даних
+					для підтримки прийняття рішень.
+				</p>
+			</div>
+
+			<div class="study-card">
+				<h3>Штучний інтелект</h3>
+				<p>
+					Освітній процес охоплює основи машинного навчання, інтелектуальних систем
+					та практичне використання AI-підходів.
+				</p>
+			</div>
+
+			<div class="study-card">
+				<h3>Системний аналіз</h3>
+				<p>
+					Студенти вивчають моделювання складних систем, аналіз процесів,
+					побудову рішень і роботу з інформаційними потоками.
+				</p>
+			</div>
+		</div>
+	</section>
+
+	<section class="programs-section" aria-labelledby="audience-heading">
+		<div class="programs-section-header">
+			<p class="programs-section-kicker">Для кого</p>
+			<h2 id="audience-heading">Кому підходять ці програми</h2>
+		</div>
+
+		<div class="programs-audience-grid">
+			<div class="programs-audience-card">
+				<span class="programs-audience-number">01</span>
+				<p>
+					Абітурієнтам, які цікавляться штучним інтелектом, аналітикою даних,
+					програмуванням та сучасними інформаційними системами.
+				</p>
+			</div>
+
+			<div class="programs-audience-card">
+				<span class="programs-audience-number">02</span>
+				<p>
+					Тим, хто хоче поєднати математичну підготовку, логічне мислення
+					та практичну розробку програмних рішень.
+				</p>
+			</div>
+
+			<div class="programs-audience-card">
+				<span class="programs-audience-number">03</span>
+				<p>
+					Майбутнім фахівцям з інтелектуальних інформаційних систем,
+					аналізу даних, автоматизації та цифрової трансформації.
+				</p>
+			</div>
+		</div>
+	</section>
+
+	<section class="programs-cta" aria-labelledby="programs-cta-heading">
+		<div>
+			<p class="programs-section-kicker">Додаткова інформація</p>
+			<h2 id="programs-cta-heading">Потрібно уточнити умови вступу?</h2>
+			<p>
+				Для уточнення деталей щодо вступу, навчальних планів, консультацій
+				та можливостей подальшого навчання скористайтеся розділом для абітурієнтів
+				або зверніться до кафедри.
+			</p>
+		</div>
+
+		<div class="programs-cta-actions">
+			<a class="btn" href="{{ url_for('abiturients') }}">Розділ «Абітурієнту»</a>
+			<a class="btn btn-secondary" href="{{ url_for('contacts') }}">Контакти</a>
+		</div>
+	</section>
+</article>
+{% endblock %}

@@ -1,0 +1,206 @@
+{% extends "base.html" %}
+
+{% block title %}Новини — Кафедра СШІАД ТНТУ{% endblock %}
+{% block meta_description %}Останні новини кафедри: події, конференції, оголошення, досягнення викладачів і студентів.{%
+endblock %}
+
+{% block content %}
+{% set shown_news = news_list if news_list is defined else [] %}
+{% set search_query = query if query is defined else "" %}
+
+<article class="news-modern-page">
+	<section class="news-cover" aria-labelledby="news-cover-title">
+		<div class="news-cover-content">
+			<p class="news-eyebrow">Новини та оголошення</p>
+
+			<h1 id="news-cover-title" class="news-cover-title">
+				Актуальні події, оголошення та оновлення кафедри
+			</h1>
+
+			<p class="news-cover-lead">
+				У цьому розділі публікуються академічні новини, конференції, публікації,
+				оголошення для студентів і абітурієнтів, а також важливі повідомлення кафедри.
+			</p>
+
+			<div class="news-cover-actions" aria-label="Швидкі дії">
+				<a class="btn" href="{{ url_for('programs') }}">Освітні програми</a>
+				<a class="btn btn-secondary" href="{{ url_for('abiturients') }}">Абітурієнту</a>
+			</div>
+		</div>
+
+		<div class="news-cover-aside" aria-label="Коротка інформація про розділ новин">
+			<div class="news-info-card">
+				<span class="news-info-number">{{ shown_news | length if shown_news else 0 }}</span>
+				<span class="news-info-title">публікації</span>
+				<span class="news-info-text">знайдено або показано на сторінці</span>
+			</div>
+
+			<div class="news-info-card">
+				<span class="news-info-number">FAQ</span>
+				<span class="news-info-title">для асистента</span>
+				<span class="news-info-text">новини доповнюють інформаційне середовище сайту</span>
+			</div>
+
+			<div class="news-info-card">
+				<span class="news-info-number">JSON</span>
+				<span class="news-info-title">сховище знань</span>
+				<span class="news-info-text">дані можуть зберігатися централізовано</span>
+			</div>
+		</div>
+	</section>
+
+	<section class="news-search-panel" aria-labelledby="news-search-heading">
+		<div class="news-search-info">
+			<p class="news-section-kicker">Пошук</p>
+			<h2 id="news-search-heading">Пошук по новинах</h2>
+			<p>
+				Введіть ключове слово, щоб знайти потрібне оголошення, подію або повідомлення кафедри.
+			</p>
+		</div>
+
+		<form method="get" action="{{ url_for('news') }}" class="news-search-form" role="search">
+			<label for="news-q" class="visually-hidden">Пошук по новинах</label>
+
+			<input id="news-q" name="q" type="search" placeholder="Наприклад: вступ, конференція, магістратура..."
+				value="{{ search_query }}" aria-label="Пошук по новинах" />
+
+			<button type="submit" class="btn">Шукати</button>
+
+			{% if search_query %}
+			<a class="btn btn-secondary" href="{{ url_for('news') }}">Скинути</a>
+			{% endif %}
+		</form>
+	</section>
+
+	<section class="news-section" aria-labelledby="news-list-heading">
+		<div class="news-section-header">
+			<p class="news-section-kicker">Публікації</p>
+
+			<h2 id="news-list-heading">
+				{% if search_query %}
+				Результати пошуку
+				{% else %}
+				Останні публікації
+				{% endif %}
+			</h2>
+
+			{% if search_query %}
+			<p>
+				Показано результати за запитом:
+				<strong>“{{ search_query }}”</strong>
+			</p>
+			{% else %}
+			<p>
+				Нижче подано останні новини та оголошення кафедри.
+			</p>
+			{% endif %}
+		</div>
+
+		{% if shown_news and shown_news|length > 0 %}
+		<div class="news-cards-list">
+			{% for item in shown_news %}
+			<article class="news-card-modern">
+				<div class="news-card-meta">
+					<span class="news-date">
+						{{ item.date if item.date is defined else "Дата не вказана" }}
+					</span>
+
+					<span class="news-category">
+						Новини кафедри
+					</span>
+				</div>
+
+				<h3>
+					{{ item.title if item.title is defined else "Новина кафедри" }}
+				</h3>
+
+				<p>
+					{{ item.body if item.body is defined else "Текст новини буде додано пізніше." }}
+				</p>
+
+				{% if item.slug is defined and item.slug %}
+				<div class="news-id">
+					Ідентифікатор новини:
+					<span>{{ item.slug }}</span>
+				</div>
+				{% endif %}
+			</article>
+			{% endfor %}
+		</div>
+		{% else %}
+		<div class="news-empty-state">
+			<h3>За вашим запитом нічого не знайдено</h3>
+			<p>
+				Спробуйте інше формулювання або перегляньте всі новини без фільтра.
+			</p>
+
+			<a href="{{ url_for('news') }}" class="btn">Показати всі новини</a>
+		</div>
+		{% endif %}
+	</section>
+
+	<section class="news-info-section" aria-labelledby="news-about-heading">
+		<div class="news-info-grid">
+			<div class="news-info-block">
+				<p class="news-section-kicker">Про розділ</p>
+				<h2 id="news-about-heading">Для чого потрібен розділ новин</h2>
+				<p>
+					Розділ новин використовується для інформування студентів, абітурієнтів
+					і відвідувачів сайту про важливі події кафедри, оновлення освітніх програм,
+					наукову діяльність та організаційні оголошення.
+				</p>
+			</div>
+
+			<div class="news-info-block">
+				<p class="news-section-kicker">Пошук і асистент</p>
+				<h2>Як швидко знайти інформацію</h2>
+				<p>
+					Користувач може скористатися пошуком по новинах, глобальним пошуком сайту
+					або поставити питання інтелектуальному асистенту.
+				</p>
+			</div>
+		</div>
+	</section>
+
+	<section class="news-section" aria-labelledby="news-useful-heading">
+		<div class="news-section-header">
+			<p class="news-section-kicker">Корисно знати</p>
+			<h2 id="news-useful-heading">Пов’язані розділи сайту</h2>
+		</div>
+
+		<div class="news-links-grid">
+			<a class="news-link-card" href="{{ url_for('programs') }}">
+				<span class="news-link-title">Освітні програми</span>
+				<span class="news-link-text">перелік програм кафедри та напрями підготовки</span>
+			</a>
+
+			<a class="news-link-card" href="{{ url_for('abiturients') }}">
+				<span class="news-link-title">Інформація для абітурієнтів</span>
+				<span class="news-link-text">вступ, документи, умови навчання та консультації</span>
+			</a>
+
+			<a class="news-link-card" href="{{ url_for('contacts') }}">
+				<span class="news-link-title">Контакти кафедри</span>
+				<span class="news-link-text">адреса, телефон, email і графік прийому</span>
+			</a>
+		</div>
+	</section>
+
+	<section class="news-cta" aria-labelledby="news-cta-heading">
+		<div>
+			<p class="news-section-kicker">Сховище знань</p>
+			<h2 id="news-cta-heading">Новини доповнюють інформаційну базу вебресурсу</h2>
+			<p>
+				Новини та оголошення є частиною інформаційного наповнення сайту.
+				У межах курсової роботи вони демонструють, як структуровані дані можуть
+				використовуватися для сторінок вебресурсу та подальшого розширення асистента.
+			</p>
+		</div>
+
+		<div class="news-cta-actions">
+			<a class="btn" href="{{ url_for('contacts') }}">Зв’язатися</a>
+			<a class="btn btn-secondary" href="{{ url_for('programs') }}">Програми</a>
+		</div>
+	</section>
+</article>
+{% endblock %}

@@ -1,0 +1,189 @@
+{% extends "base.html" %}
+
+{% block title %}Головна — Кафедра СШІАД ТНТУ{% endblock %}
+{% block meta_description %}Інформація про кафедру, освітні програми, новини, наукову діяльність, контакти та
+інтелектуальний асистент кафедрального вебресурсу.{% endblock %}
+
+{% block content %}
+{% set programs = content.programs if content is defined and content.programs is defined else [] %}
+{% set news = content.news if content is defined and content.news is defined else [] %}
+{% set contacts = content.contacts if content is defined and content.contacts is defined else {} %}
+
+<section class="home-cover" aria-labelledby="home-cover-title">
+	<div class="home-cover-grid">
+		<div class="home-cover-content">
+			<p class="home-eyebrow">Освітній вебресурс кафедри</p>
+
+			<h1 id="home-cover-title" class="home-cover-title">
+				Кафедра систем штучного інтелекту та аналізу даних
+			</h1>
+
+			<p class="home-cover-lead">
+				Кафедра готує фахівців у галузі системного аналізу, штучного інтелекту,
+				аналізу даних та інтелектуальних інформаційних систем.
+			</p>
+
+			<div class="home-cover-actions" aria-label="Основні дії">
+				<a class="btn" href="{{ url_for('programs') }}">Освітні програми</a>
+				<a class="btn btn-secondary" href="{{ url_for('abiturients') }}">Абітурієнту</a>
+			</div>
+
+			<div class="home-cover-features" aria-label="Короткі переваги">
+				<div class="home-feature">
+					<span class="home-feature-title">ШІ</span>
+					<span class="home-feature-text">штучний інтелект</span>
+				</div>
+
+				<div class="home-feature">
+					<span class="home-feature-title">Data</span>
+					<span class="home-feature-text">аналіз даних</span>
+				</div>
+
+				<div class="home-feature">
+					<span class="home-feature-title">Web</span>
+					<span class="home-feature-text">інформаційні системи</span>
+				</div>
+			</div>
+		</div>
+
+		<div class="home-cover-media">
+			<img src="{{ url_for('static', path='images/hero.jpg') }}"
+				alt="Студенти працюють із сучасними інформаційними технологіями" />
+		</div>
+	</div>
+</section>
+
+<section class="home-section home-about" aria-labelledby="about-heading">
+	<div class="home-section-header">
+		<p class="home-section-kicker">Про кафедру</p>
+		<h2 id="about-heading">Підготовка фахівців для сучасної цифрової сфери</h2>
+	</div>
+
+	<p>
+		Кафедра поєднує фундаментальну підготовку з практичними навичками у сфері
+		програмування, аналізу даних, машинного навчання та сучасних інформаційних технологій.
+		Інформаційний вебресурс кафедри забезпечує швидкий доступ до освітніх програм,
+		новин, контактів і відповідей на типові питання абітурієнтів.
+	</p>
+</section>
+
+<section class="home-section home-programs" aria-labelledby="programs-heading">
+	<div class="home-section-header">
+		<p class="home-section-kicker">Навчання</p>
+		<h2 id="programs-heading">Освітні програми</h2>
+		<p>Нижче подано короткий огляд основних освітніх програм кафедри.</p>
+	</div>
+
+	{% if programs %}
+	<div class="home-programs-grid">
+		{% for program in programs[:3] %}
+		<article class="home-program-card">
+			<div class="home-card-top">
+				<span class="home-card-label">
+					{{ program.level if program.level is defined else "Рівень не вказано" }}
+				</span>
+			</div>
+
+			<h3>{{ program.title if program.title is defined else "Освітня програма" }}</h3>
+
+			<p>
+				{{ program.description if program.description is defined else "Опис освітньої програми буде додано
+				пізніше." }}
+			</p>
+
+			<a class="home-card-link" href="{{ url_for('programs') }}">Детальніше →</a>
+		</article>
+		{% endfor %}
+	</div>
+	{% else %}
+	<div class="home-empty-card">
+		<p>Інформація про освітні програми буде додана пізніше.</p>
+	</div>
+	{% endif %}
+</section>
+
+<section class="home-section home-news" aria-labelledby="news-heading">
+	<div class="home-section-header">
+		<p class="home-section-kicker">Оновлення</p>
+		<h2 id="news-heading">Останні новини</h2>
+	</div>
+
+	{% if news %}
+	<div class="home-news-list">
+		{% for item in news[:3] %}
+		<article class="home-news-card">
+			<div class="home-news-date">
+				{{ item.date if item.date is defined else "Дата не вказана" }}
+			</div>
+
+			<h3>{{ item.title if item.title is defined else "Новина кафедри" }}</h3>
+
+			<p>
+				{{ item.body if item.body is defined else "Текст новини буде додано пізніше." }}
+			</p>
+		</article>
+		{% endfor %}
+	</div>
+
+	<div class="home-section-actions">
+		<a href="{{ url_for('news') }}" class="btn">Усі новини</a>
+	</div>
+	{% else %}
+	<div class="home-empty-card">
+		<p>Новини поки не додані до сховища знань.</p>
+	</div>
+	{% endif %}
+</section>
+
+<section class="home-section home-knowledge" aria-labelledby="knowledge-heading">
+	<div class="home-section-header">
+		<p class="home-section-kicker">Сховище знань</p>
+		<h2 id="knowledge-heading">Інформація сайту використовується асистентом</h2>
+	</div>
+
+	<div class="home-knowledge-grid">
+		<div class="home-knowledge-card">
+			<h3>Централізовані дані</h3>
+			<p>
+				Оголошення, освітні програми, новини, контакти, вступна інформація,
+				стажування, наукова діяльність і FAQ зберігаються у структурованому
+				JSON-сховищі.
+			</p>
+		</div>
+
+		<div class="home-knowledge-card">
+			<h3>Інтелектуальний асистент</h3>
+			<p>
+				Асистент використовує локальне сховище знань для відповідей на типові
+				питання абітурієнтів і користувачів сайту.
+			</p>
+		</div>
+	</div>
+</section>
+
+<section class="home-section home-contact-preview" aria-labelledby="contact-heading">
+	<div class="home-section-header">
+		<p class="home-section-kicker">Зв’язок</p>
+		<h2 id="contact-heading">Контактна інформація</h2>
+	</div>
+
+	<div class="home-contact-card">
+		<p>
+			<strong>Адреса:</strong>
+			{{ contacts.address if contacts.address is defined else "Не вказано" }}
+		</p>
+
+		<p>
+			<strong>Телефон:</strong>
+			{{ contacts.phone if contacts.phone is defined else "Не вказано" }}
+		</p>
+
+		<p>
+			<strong>Email:</strong>
+			{{ contacts.email if contacts.email is defined else "Не вказано" }}
+		</p>
+
+		<a href="{{ url_for('contacts') }}" class="btn">Усі контакти</a>
+	</div>
+</section>
+{% endblock %}

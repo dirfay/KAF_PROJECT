@@ -1,0 +1,216 @@
+{% extends "base.html" %}
+
+{% block title %}Наукова діяльність — Кафедра СШІАД ТНТУ{% endblock %}
+{% block meta_description %}Наукова діяльність кафедри: напрями досліджень, проєкти, публікації, участь студентів у
+науці та прикладні розробки.{% endblock %}
+
+{% block content %}
+{% set science = content.science if content is defined and content.science is defined else {} %}
+
+<article class="science-modern-page">
+	<section class="science-cover" aria-labelledby="science-cover-title">
+		<div class="science-cover-content">
+			<p class="science-eyebrow">Наукова діяльність</p>
+
+			<h1 id="science-cover-title" class="science-cover-title">
+				Дослідження у сфері штучного інтелекту, аналізу даних та інтелектуальних систем
+			</h1>
+
+			<p class="science-cover-lead">
+				Кафедра здійснює наукову діяльність у галузях штучного інтелекту,
+				аналізу даних, інтелектуальних інформаційних систем, машинного навчання
+				та суміжних напрямів сучасних інформаційних технологій.
+			</p>
+
+			<div class="science-cover-actions" aria-label="Основні дії">
+				<a class="btn" href="{{ url_for('news') }}">Наукові новини</a>
+				<a class="btn btn-secondary" href="{{ url_for('contacts') }}">Зв’язатися з кафедрою</a>
+			</div>
+		</div>
+
+		<div class="science-cover-aside" aria-label="Ключові наукові акценти">
+			<div class="science-info-card">
+				<span class="science-info-number">AI</span>
+				<span class="science-info-title">Штучний інтелект</span>
+				<span class="science-info-text">дослідження методів інтелектуальної обробки інформації</span>
+			</div>
+
+			<div class="science-info-card">
+				<span class="science-info-number">ML</span>
+				<span class="science-info-title">Машинне навчання</span>
+				<span class="science-info-text">прикладні моделі, алгоритми та аналіз даних</span>
+			</div>
+
+			<div class="science-info-card">
+				<span class="science-info-number">R&D</span>
+				<span class="science-info-title">Дослідницькі проєкти</span>
+				<span class="science-info-text">участь студентів і викладачів у науковій роботі</span>
+			</div>
+		</div>
+	</section>
+
+	<section class="science-section" aria-labelledby="science-summary-heading">
+		<div class="science-section-header">
+			<p class="science-section-kicker">Коротко</p>
+			<h2 id="science-summary-heading">Короткий опис</h2>
+		</div>
+
+		<div class="science-text-card">
+			<p>
+				{{ science.summary if science.summary is defined else "Інформація про наукову діяльність кафедри буде
+				уточнена пізніше." }}
+			</p>
+		</div>
+	</section>
+
+	<section class="science-section" aria-labelledby="activities-heading">
+		<div class="science-section-header">
+			<p class="science-section-kicker">Напрями</p>
+			<h2 id="activities-heading">Основні напрями діяльності</h2>
+			<p>
+				Наукова робота кафедри пов’язана з актуальними напрямами штучного інтелекту,
+				аналізу даних, моделювання та прикладних інформаційних систем.
+			</p>
+		</div>
+
+		{% if science.activities is defined and science.activities %}
+		{% if science.activities is string %}
+		<div class="science-text-card">
+			<p>{{ science.activities }}</p>
+		</div>
+		{% else %}
+		<div class="science-activity-grid">
+			{% for item in science.activities %}
+			<div class="science-activity-card">
+				<span class="science-activity-number">{{ "%02d"|format(loop.index) }}</span>
+				<p>{{ item }}</p>
+			</div>
+			{% endfor %}
+		</div>
+		{% endif %}
+		{% else %}
+		<div class="science-empty-card">
+			<h3>Основні напрями досліджень тимчасово не вказані</h3>
+			<p>Після оновлення блоку science у сховищі знань дані автоматично з’являться на цій сторінці.</p>
+		</div>
+		{% endif %}
+	</section>
+
+	<section class="science-section" aria-labelledby="science-details-heading">
+		<div class="science-section-header">
+			<p class="science-section-kicker">Діяльність</p>
+			<h2 id="science-details-heading">Детальніше про діяльність</h2>
+		</div>
+
+		<div class="science-text-card">
+			<p>
+				{{ science.details if science.details is defined else "Кафедра підтримує участь студентів і викладачів у
+				наукових конференціях, публікаціях, дослідницьких проєктах та прикладних розробках." }}
+			</p>
+		</div>
+	</section>
+
+	<section class="science-section" aria-labelledby="keywords-heading">
+		<div class="science-section-header">
+			<p class="science-section-kicker">Ключові слова</p>
+			<h2 id="keywords-heading">Ключові напрями досліджень</h2>
+		</div>
+
+		{% if science.keywords is defined and science.keywords %}
+		<div class="science-keywords" aria-label="Ключові напрями досліджень">
+			{% for keyword in science.keywords %}
+			<span class="science-keyword">{{ keyword }}</span>
+			{% endfor %}
+		</div>
+		{% else %}
+		<div class="science-empty-card">
+			<h3>Ключові напрями будуть додані пізніше</h3>
+			<p>Перелік ключових напрямів можна оновити через JSON-сховище знань.</p>
+		</div>
+		{% endif %}
+	</section>
+
+	<section class="science-section" aria-labelledby="students-heading">
+		<div class="science-section-header">
+			<p class="science-section-kicker">Студентам</p>
+			<h2 id="students-heading">Можливості для студентів</h2>
+			<p>
+				Студенти можуть долучатися до наукової роботи кафедри та використовувати
+				отримані результати для курсових, кваліфікаційних і прикладних проєктів.
+			</p>
+		</div>
+
+		<div class="science-students-grid">
+			<div class="science-student-card">
+				<h3>Наукові гуртки</h3>
+				<p>
+					Участь у кафедральних ініціативах, обговореннях, дослідженнях і підготовці
+					прикладних рішень.
+				</p>
+			</div>
+
+			<div class="science-student-card">
+				<h3>Конференції</h3>
+				<p>
+					Підготовка тез, доповідей, презентацій і участь у науково-практичних заходах.
+				</p>
+			</div>
+
+			<div class="science-student-card">
+				<h3>Публікації</h3>
+				<p>
+					Підготовка статей, матеріалів досліджень і описів результатів прикладної роботи.
+				</p>
+			</div>
+
+			<div class="science-student-card">
+				<h3>Проєкти</h3>
+				<p>
+					Розробка інформаційних систем, AI-компонентів, моделей аналізу даних
+					та навчальних прототипів.
+				</p>
+			</div>
+		</div>
+	</section>
+
+	<section class="science-section" aria-labelledby="useful-science-heading">
+		<div class="science-section-header">
+			<p class="science-section-kicker">Корисно</p>
+			<h2 id="useful-science-heading">Корисні посилання</h2>
+		</div>
+
+		<div class="science-links-grid">
+			<a class="science-link-card" href="{{ url_for('news') }}">
+				<span class="science-link-title">Новини кафедри</span>
+				<span class="science-link-text">оголошення, події, конференції та оновлення</span>
+			</a>
+
+			<a class="science-link-card" href="{{ url_for('programs') }}">
+				<span class="science-link-title">Освітні програми</span>
+				<span class="science-link-text">навчальні напрями, пов’язані з науковою тематикою</span>
+			</a>
+
+			<a class="science-link-card" href="{{ url_for('contacts') }}">
+				<span class="science-link-title">Контакти кафедри</span>
+				<span class="science-link-text">зв’язок для консультацій та уточнення інформації</span>
+			</a>
+		</div>
+	</section>
+
+	<section class="science-cta" aria-labelledby="science-cta-heading">
+		<div>
+			<p class="science-section-kicker">Дослідницький напрям</p>
+			<h2 id="science-cta-heading">Наукова інформація є частиною сховища знань</h2>
+			<p>
+				Дані про наукову діяльність можуть використовуватися не лише сторінкою сайту,
+				а й інтелектуальним асистентом для відповідей на запити користувачів.
+			</p>
+		</div>
+
+		<div class="science-cta-actions">
+			<a class="btn" href="{{ url_for('contacts') }}">Зв’язатися</a>
+			<a class="btn btn-secondary" href="{{ url_for('news') }}">Перейти до новин</a>
+		</div>
+	</section>
+</article>
+{% endblock %}

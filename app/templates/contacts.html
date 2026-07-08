@@ -1,0 +1,225 @@
+{% extends "base.html" %}
+
+{% block title %}Контакти — Кафедра СШІАД ТНТУ{% endblock %}
+{% block meta_description %}Контактна інформація кафедри: адреса, телефон, електронна пошта, графік прийому та корисні
+посилання.{% endblock %}
+
+{% block content %}
+{% set contacts = content.contacts if content is defined and content.contacts is defined else {} %}
+{% set address_text = contacts.address if contacts.address is defined else "ТНТУ, вул. Руська, 56, корпус 2, к.62" %}
+{% set phone_text = contacts.phone if contacts.phone is defined else "+380931991085" %}
+{% set email_text = contacts.email if contacts.email is defined else "kaf_ai@tntu.edu.ua" %}
+{% set office_hours_text = contacts.office_hours if contacts.office_hours is defined else "Понеділок — П'ятниця: 10:00 —
+12:00" %}
+
+<article class="contacts-modern-page">
+	<section class="contacts-cover" aria-labelledby="contacts-cover-title">
+		<div class="contacts-cover-content">
+			<p class="contacts-eyebrow">Контакти кафедри</p>
+
+			<h1 id="contacts-cover-title" class="contacts-cover-title">
+				Зв’язок із кафедрою систем штучного інтелекту та аналізу даних
+			</h1>
+
+			<p class="contacts-cover-lead">
+				На цій сторінці зібрано основні контактні дані кафедри: адресу,
+				телефон, електронну пошту, графік прийому та корисні посилання
+				для студентів, абітурієнтів і відвідувачів сайту.
+			</p>
+
+			<div class="contacts-cover-actions" aria-label="Основні дії">
+				<a class="btn" href="mailto:{{ email_text }}">Написати на email</a>
+				<a class="btn btn-secondary" href="{{ url_for('abiturients') }}">Абітурієнту</a>
+			</div>
+		</div>
+
+		<div class="contacts-cover-aside" aria-label="Короткі контактні дані">
+			<div class="contacts-info-card">
+				<span class="contacts-info-number">Email</span>
+				<span class="contacts-info-title">{{ email_text }}</span>
+				<span class="contacts-info-text">електронна пошта кафедри</span>
+			</div>
+
+			<div class="contacts-info-card">
+				<span class="contacts-info-number">Тел.</span>
+				<span class="contacts-info-title">{{ phone_text }}</span>
+				<span class="contacts-info-text">телефон для консультацій</span>
+			</div>
+
+			<div class="contacts-info-card">
+				<span class="contacts-info-number">Каб.</span>
+				<span class="contacts-info-title">
+					{{ contacts.room if contacts.room is defined else "2.62" }}
+				</span>
+				<span class="contacts-info-text">кабінет або місце прийому</span>
+			</div>
+		</div>
+	</section>
+
+	<section class="contacts-section" aria-labelledby="main-contacts-heading">
+		<div class="contacts-section-header">
+			<p class="contacts-section-kicker">Основна інформація</p>
+			<h2 id="main-contacts-heading">Контактні дані</h2>
+			<p>
+				Ці дані зберігаються у JSON-сховищі знань і можуть використовуватися
+				як на сторінці контактів, так і в відповідях інтелектуального асистента.
+			</p>
+		</div>
+
+		<div class="contacts-data-grid">
+			<div class="contacts-data-card">
+				<div class="contacts-data-icon">📍</div>
+				<div>
+					<h3>Адреса</h3>
+					<p>{{ address_text }}</p>
+				</div>
+			</div>
+
+			<div class="contacts-data-card">
+				<div class="contacts-data-icon">☎</div>
+				<div>
+					<h3>Телефон</h3>
+					<p>{{ phone_text }}</p>
+				</div>
+			</div>
+
+			<div class="contacts-data-card">
+				<div class="contacts-data-icon">✉</div>
+				<div>
+					<h3>Email</h3>
+					<p>
+						<a href="mailto:{{ email_text }}">{{ email_text }}</a>
+					</p>
+				</div>
+			</div>
+
+			<div class="contacts-data-card">
+				<div class="contacts-data-icon">🕘</div>
+				<div>
+					<h3>Графік прийому</h3>
+					<p>{{ office_hours_text }}</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="contacts-section" aria-labelledby="consultation-heading">
+		<div class="contacts-section-header">
+			<p class="contacts-section-kicker">Консультації</p>
+			<h2 id="consultation-heading">З якими питаннями можна звертатися</h2>
+		</div>
+
+		<div class="contacts-help-grid">
+			<div class="contacts-help-card">
+				<span class="contacts-help-number">01</span>
+				<h3>Вступ</h3>
+				<p>
+					Консультації щодо освітніх програм, вступних вимог,
+					необхідних документів і подачі заяв.
+				</p>
+			</div>
+
+			<div class="contacts-help-card">
+				<span class="contacts-help-number">02</span>
+				<h3>Навчання</h3>
+				<p>
+					Питання щодо навчального процесу, розкладу,
+					освітніх компонентів і організаційної інформації.
+				</p>
+			</div>
+
+			<div class="contacts-help-card">
+				<span class="contacts-help-number">03</span>
+				<h3>Наукова діяльність</h3>
+				<p>
+					Інформація про наукові напрями, участь у проєктах,
+					конференціях і студентських ініціативах.
+				</p>
+			</div>
+		</div>
+	</section>
+
+	<section class="contacts-section" aria-labelledby="location-heading">
+		<div class="contacts-section-header">
+			<p class="contacts-section-kicker">Розташування</p>
+			<h2 id="location-heading">Як знайти кафедру</h2>
+			<p>
+				Нижче подано адресу кафедри та інтерактивну карту.
+			</p>
+		</div>
+
+		<div class="contacts-location-grid">
+			<div class="contacts-map-card">
+				<h3>Інтерактивна карта</h3>
+
+				<div class="contacts-map-frame">
+					<div class="contacts-map-pin">
+						<span class="contacts-map-pin-icon">📍</span>
+						<span class="contacts-map-pin-text">Кафедра СШІАД ТНТУ</span>
+					</div>
+
+					<iframe title="Карта розташування кафедри"
+						src="https://www.google.com/maps?q=Тернопіль,%20вул.%20Руська,%2056,%20ТНТУ&z=18&output=embed"
+						loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen>
+					</iframe>
+				</div>
+
+				<p class="contacts-map-hint">
+					ТНТУ, вул. Руська, 56, корпус 2, к.62
+				</p>
+			</div>
+
+			<div class="contacts-location-card">
+				<h3>Адреса кафедри</h3>
+				<p>{{ address_text }}</p>
+
+				<div class="contacts-location-extra">
+					<p><strong>Телефон:</strong> {{ phone_text }}</p>
+					<p><strong>Email:</strong> <a href="mailto:{{ email_text }}">{{ email_text }}</a></p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="contacts-section" aria-labelledby="useful-contacts-heading">
+		<div class="contacts-section-header">
+			<p class="contacts-section-kicker">Корисно знати</p>
+			<h2 id="useful-contacts-heading">Пов’язані розділи сайту</h2>
+		</div>
+
+		<div class="contacts-links-grid">
+			<a class="contacts-link-card" href="{{ url_for('programs') }}">
+				<span class="contacts-link-title">Освітні програми</span>
+				<span class="contacts-link-text">перелік програм кафедри та напрями підготовки</span>
+			</a>
+
+			<a class="contacts-link-card" href="{{ url_for('abiturients') }}">
+				<span class="contacts-link-title">Абітурієнту</span>
+				<span class="contacts-link-text">вступ, документи, умови навчання та консультації</span>
+			</a>
+
+			<a class="contacts-link-card" href="{{ url_for('news') }}">
+				<span class="contacts-link-title">Новини кафедри</span>
+				<span class="contacts-link-text">оголошення, події та актуальні повідомлення</span>
+			</a>
+		</div>
+	</section>
+
+	<section class="contacts-cta" aria-labelledby="contacts-cta-heading">
+		<div>
+			<p class="contacts-section-kicker">Сховище знань</p>
+			<h2 id="contacts-cta-heading">Контактні дані використовуються інтелектуальним асистентом</h2>
+			<p>
+				Контактна інформація є частиною структурованого сховища знань.
+				Це дозволяє відображати її на сторінці сайту та використовувати
+				для автоматичних відповідей на типові запити користувачів.
+			</p>
+		</div>
+
+		<div class="contacts-cta-actions">
+			<a class="btn" href="mailto:{{ email_text }}">Написати</a>
+			<a class="btn btn-secondary" href="{{ url_for('programs') }}">Програми</a>
+		</div>
+	</section>
+</article>
+{% endblock %}

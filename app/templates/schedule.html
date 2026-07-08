@@ -1,0 +1,327 @@
+{% extends "base.html" %}
+
+{% block title %}Розклад — Кафедра СШІАД ТНТУ{% endblock %}
+{% block meta_description %}Розклад занять, консультацій, організаційна інформація та корисні посилання для студентів
+кафедри.{% endblock %}
+
+{% block content %}
+{% set schedule = content.schedule if content is defined and content.schedule is defined else {} %}
+{% set lessons = schedule.lessons if schedule.lessons is defined else [] %}
+{% set consultations = schedule.consultations if schedule.consultations is defined else [] %}
+{% set exams = schedule.exams if schedule.exams is defined else [] %}
+{% set notes = schedule.notes if schedule.notes is defined else [] %}
+
+<article class="schedule-modern-page">
+	<section class="schedule-cover" aria-labelledby="schedule-cover-title">
+		<div class="schedule-cover-content">
+			<p class="schedule-eyebrow">Розклад</p>
+
+			<h1 id="schedule-cover-title" class="schedule-cover-title">
+				Розклад занять, консультацій та організаційної інформації
+			</h1>
+
+			<p class="schedule-cover-lead">
+				На цій сторінці подано інформацію про навчальний розклад, консультації,
+				екзаменаційні події та корисні організаційні повідомлення для студентів кафедри.
+			</p>
+
+			<div class="schedule-cover-actions" aria-label="Основні дії">
+				<a class="btn" href="{{ url_for('contacts') }}">Зв’язатися з кафедрою</a>
+				<a class="btn btn-secondary" href="{{ url_for('programs') }}">Освітні програми</a>
+			</div>
+		</div>
+
+		<div class="schedule-cover-aside" aria-label="Коротка інформація про розклад">
+			<div class="schedule-info-card">
+				<span class="schedule-info-number">01</span>
+				<span class="schedule-info-title">Заняття</span>
+				<span class="schedule-info-text">навчальні пари, аудиторії та викладачі</span>
+			</div>
+
+			<div class="schedule-info-card">
+				<span class="schedule-info-number">02</span>
+				<span class="schedule-info-title">Консультації</span>
+				<span class="schedule-info-text">час для уточнення навчальних питань</span>
+			</div>
+
+			<div class="schedule-info-card">
+				<span class="schedule-info-number">03</span>
+				<span class="schedule-info-title">Оновлення</span>
+				<span class="schedule-info-text">дані можуть оновлюватися через сховище знань</span>
+			</div>
+		</div>
+	</section>
+
+	<section class="schedule-section" aria-labelledby="schedule-summary-heading">
+		<div class="schedule-section-header">
+			<p class="schedule-section-kicker">Коротко</p>
+			<h2 id="schedule-summary-heading">Про розклад</h2>
+		</div>
+
+		<div class="schedule-text-card">
+			<p>
+				{{ schedule.summary if schedule.summary is defined else "Розклад використовується для інформування
+				студентів про навчальні заняття, консультації, організаційні події та зміни у навчальному процесі." }}
+			</p>
+		</div>
+	</section>
+
+	<section class="schedule-section" aria-labelledby="lessons-heading">
+		<div class="schedule-section-header">
+			<p class="schedule-section-kicker">Навчальний процес</p>
+			<h2 id="lessons-heading">Розклад занять</h2>
+			<p>
+				Основна таблиця або перелік занять може зберігатися у блоці
+				<code>schedule</code> JSON-сховища знань.
+			</p>
+		</div>
+
+		{% if lessons %}
+		{% if lessons is string %}
+		<div class="schedule-text-card">
+			<p>{{ lessons }}</p>
+		</div>
+		{% else %}
+		<div class="schedule-table-card">
+			<div class="schedule-table-wrap">
+				<table class="schedule-table">
+					<thead>
+						<tr>
+							<th>День</th>
+							<th>Час</th>
+							<th>Дисципліна</th>
+							<th>Викладач</th>
+							<th>Аудиторія</th>
+						</tr>
+					</thead>
+
+					<tbody>
+						{% for lesson in lessons %}
+						<tr>
+							{% if lesson.day is defined or lesson.time is defined or lesson.subject is defined %}
+							<td>{{ lesson.day if lesson.day is defined else "—" }}</td>
+							<td>{{ lesson.time if lesson.time is defined else "—" }}</td>
+							<td>{{ lesson.subject if lesson.subject is defined else lesson.title if lesson.title is
+								defined else "—" }}</td>
+							<td>{{ lesson.teacher if lesson.teacher is defined else "—" }}</td>
+							<td>{{ lesson.room if lesson.room is defined else lesson.location if lesson.location is
+								defined else "—" }}</td>
+							{% else %}
+							<td colspan="5">{{ lesson }}</td>
+							{% endif %}
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+		{% endif %}
+		{% else %}
+		<div class="schedule-empty-card">
+			<h3>Розклад занять буде додано пізніше</h3>
+			<p>
+				Після наповнення блоку <code>schedule.lessons</code> у JSON-сховищі
+				інформація автоматично відобразиться на цій сторінці.
+			</p>
+		</div>
+		{% endif %}
+	</section>
+
+	<section class="schedule-section" aria-labelledby="consultations-heading">
+		<div class="schedule-section-header">
+			<p class="schedule-section-kicker">Консультації</p>
+			<h2 id="consultations-heading">Графік консультацій</h2>
+			<p>
+				Консультації допомагають студентам уточнювати навчальні питання,
+				підготовку до контрольних заходів, курсових робіт і практичних завдань.
+			</p>
+		</div>
+
+		{% if consultations %}
+		{% if consultations is string %}
+		<div class="schedule-text-card">
+			<p>{{ consultations }}</p>
+		</div>
+		{% else %}
+		<div class="schedule-consultations-grid">
+			{% for item in consultations %}
+			<div class="schedule-consultation-card">
+				<span class="schedule-consultation-number">{{ "%02d"|format(loop.index) }}</span>
+
+				<div>
+					<h3>
+						{{ item.title if item.title is defined else item.teacher if item.teacher is defined else
+						"Консультація" }}
+					</h3>
+
+					<p>
+						{% if item.time is defined %}
+						<strong>Час:</strong> {{ item.time }}
+						{% else %}
+						{{ item }}
+						{% endif %}
+					</p>
+
+					{% if item.room is defined or item.location is defined %}
+					<p>
+						<strong>Місце:</strong>
+						{{ item.room if item.room is defined else item.location }}
+					</p>
+					{% endif %}
+				</div>
+			</div>
+			{% endfor %}
+		</div>
+		{% endif %}
+		{% else %}
+		<div class="schedule-consultations-grid">
+			<div class="schedule-consultation-card">
+				<span class="schedule-consultation-number">01</span>
+				<div>
+					<h3>Консультації викладачів</h3>
+					<p>Актуальний графік консультацій уточнюйте на кафедрі або через сторінку контактів.</p>
+				</div>
+			</div>
+
+			<div class="schedule-consultation-card">
+				<span class="schedule-consultation-number">02</span>
+				<div>
+					<h3>Поточні навчальні питання</h3>
+					<p>Студенти можуть звертатися щодо лабораторних робіт, курсових завдань і практики.</p>
+				</div>
+			</div>
+		</div>
+		{% endif %}
+	</section>
+
+	<section class="schedule-section" aria-labelledby="exams-heading">
+		<div class="schedule-section-header">
+			<p class="schedule-section-kicker">Контроль</p>
+			<h2 id="exams-heading">Екзамени та контрольні заходи</h2>
+		</div>
+
+		{% if exams %}
+		{% if exams is string %}
+		<div class="schedule-text-card">
+			<p>{{ exams }}</p>
+		</div>
+		{% else %}
+		<div class="schedule-events-grid">
+			{% for exam in exams %}
+			<div class="schedule-event-card">
+				<div class="schedule-event-date">
+					{{ exam.date if exam.date is defined else "Дата уточнюється" }}
+				</div>
+
+				<h3>
+					{{ exam.title if exam.title is defined else exam.subject if exam.subject is defined else
+					"Контрольний захід" }}
+				</h3>
+
+				<p>
+					{% if exam.time is defined %}
+					<strong>Час:</strong> {{ exam.time }}
+					{% else %}
+					Деталі буде уточнено додатково.
+					{% endif %}
+				</p>
+
+				{% if exam.room is defined or exam.location is defined %}
+				<p>
+					<strong>Місце:</strong>
+					{{ exam.room if exam.room is defined else exam.location }}
+				</p>
+				{% endif %}
+			</div>
+			{% endfor %}
+		</div>
+		{% endif %}
+		{% else %}
+		<div class="schedule-empty-card">
+			<h3>Інформація про контрольні заходи буде додана пізніше</h3>
+			<p>
+				Розклад екзаменів, заліків або інших контрольних заходів може бути
+				доданий до JSON-сховища знань окремим блоком.
+			</p>
+		</div>
+		{% endif %}
+	</section>
+
+	<section class="schedule-section" aria-labelledby="notes-heading">
+		<div class="schedule-section-header">
+			<p class="schedule-section-kicker">Примітки</p>
+			<h2 id="notes-heading">Організаційні повідомлення</h2>
+		</div>
+
+		{% if notes %}
+		{% if notes is string %}
+		<div class="schedule-text-card">
+			<p>{{ notes }}</p>
+		</div>
+		{% else %}
+		<div class="schedule-notes-grid">
+			{% for note in notes %}
+			<div class="schedule-note-card">
+				<span class="schedule-note-icon">!</span>
+				<p>{{ note }}</p>
+			</div>
+			{% endfor %}
+		</div>
+		{% endif %}
+		{% else %}
+		<div class="schedule-notes-grid">
+			<div class="schedule-note-card">
+				<span class="schedule-note-icon">!</span>
+				<p>Перед відвідуванням занять або консультацій перевіряйте актуальні повідомлення кафедри.</p>
+			</div>
+
+			<div class="schedule-note-card">
+				<span class="schedule-note-icon">!</span>
+				<p>Уточнення щодо змін у розкладі можна отримати через сторінку контактів.</p>
+			</div>
+		</div>
+		{% endif %}
+	</section>
+
+	<section class="schedule-section" aria-labelledby="useful-schedule-heading">
+		<div class="schedule-section-header">
+			<p class="schedule-section-kicker">Корисно знати</p>
+			<h2 id="useful-schedule-heading">Пов’язані розділи сайту</h2>
+		</div>
+
+		<div class="schedule-links-grid">
+			<a class="schedule-link-card" href="{{ url_for('programs') }}">
+				<span class="schedule-link-title">Освітні програми</span>
+				<span class="schedule-link-text">навчальні напрями та структура підготовки</span>
+			</a>
+
+			<a class="schedule-link-card" href="{{ url_for('news') }}">
+				<span class="schedule-link-title">Новини кафедри</span>
+				<span class="schedule-link-text">актуальні оголошення та організаційні повідомлення</span>
+			</a>
+
+			<a class="schedule-link-card" href="{{ url_for('contacts') }}">
+				<span class="schedule-link-title">Контакти кафедри</span>
+				<span class="schedule-link-text">зв’язок для уточнення розкладу та консультацій</span>
+			</a>
+		</div>
+	</section>
+
+	<section class="schedule-cta" aria-labelledby="schedule-cta-heading">
+		<div>
+			<p class="schedule-section-kicker">Сховище знань</p>
+			<h2 id="schedule-cta-heading">Розклад може бути частиною інформаційної бази асистента</h2>
+			<p>
+				Дані про заняття, консультації та організаційні повідомлення можуть
+				зберігатися у структурованому сховищі знань і використовуватися
+				інтелектуальним асистентом для відповідей на запити студентів.
+			</p>
+		</div>
+
+		<div class="schedule-cta-actions">
+			<a class="btn" href="{{ url_for('contacts') }}">Уточнити розклад</a>
+			<a class="btn btn-secondary" href="{{ url_for('news') }}">Новини</a>
+		</div>
+	</section>
+</article>
+{% endblock %}

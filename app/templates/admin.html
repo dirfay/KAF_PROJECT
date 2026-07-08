@@ -1,0 +1,192 @@
+{% extends "base.html" %}
+
+{% block title %}Адміністрування — Кафедра СШІАД ТНТУ{% endblock %}
+{% block meta_description %}Адміністративна панель для редагування JSON-сховища знань кафедрального вебресурсу.{%
+endblock %}
+
+{% block content %}
+<article class="admin-modern-page">
+	<section class="admin-cover" aria-labelledby="admin-cover-title">
+		<div class="admin-cover-content">
+			<p class="admin-eyebrow">Адміністративна панель</p>
+
+			<h1 id="admin-cover-title" class="admin-cover-title">
+				Редагування сховища знань вебресурсу кафедри
+			</h1>
+
+			<p class="admin-cover-lead">
+				У цьому розділі можна оновлювати структуровані дані сайту:
+				оголошення, новини, контакти, освітні програми, інформацію для вступників,
+				наукову діяльність, стажування, розклад і FAQ для інтелектуального асистента.
+			</p>
+		</div>
+
+		<div class="admin-cover-aside" aria-label="Коротка інформація про адміністрування">
+			<div class="admin-info-card">
+				<span class="admin-info-number">JSON</span>
+				<span class="admin-info-title">Сховище знань</span>
+				<span class="admin-info-text">централізоване редагування даних сайту</span>
+			</div>
+
+			<div class="admin-info-card">
+				<span class="admin-info-number">Admin</span>
+				<span class="admin-info-title">Керування</span>
+				<span class="admin-info-text">оновлення без редагування HTML-сторінок</span>
+			</div>
+
+			<div class="admin-info-card">
+				<span class="admin-info-number">AI</span>
+				<span class="admin-info-title">Асистент</span>
+				<span class="admin-info-text">відповіді формуються на основі сховища знань</span>
+			</div>
+		</div>
+	</section>
+
+	<section class="admin-section" aria-labelledby="admin-editor-heading">
+		<div class="admin-section-header">
+			<p class="admin-section-kicker">Редактор</p>
+			<h2 id="admin-editor-heading">Вміст JSON-сховища</h2>
+			<p>
+				Перед збереженням переконайтесь, що структура JSON коректна:
+				усі лапки, коми, дужки та масиви мають бути правильно закриті.
+			</p>
+		</div>
+
+		{% if message is defined and message %}
+		<div class="admin-alert admin-alert-success" role="status">
+			<strong>Успішно:</strong>
+			<span>{{ message }}</span>
+		</div>
+		{% endif %}
+
+		{% if error is defined and error %}
+		<div class="admin-alert admin-alert-error" role="alert">
+			<strong>Помилка:</strong>
+			<span>{{ error }}</span>
+		</div>
+		{% endif %}
+
+		<form method="post" action="{{ url_for('admin') }}" class="admin-editor-form">
+			<div class="admin-editor-toolbar">
+				<div>
+					<h3>Редактор даних</h3>
+					<p>
+						Зміни після збереження використовуються сторінками сайту
+						та інтелектуальним асистентом.
+					</p>
+				</div>
+
+				<div class="admin-editor-actions">
+					<button type="submit" class="btn">Зберегти зміни</button>
+					<a href="{{ url_for('home') }}" class="btn btn-secondary">На сайт</a>
+				</div>
+			</div>
+
+			<label for="json-editor" class="admin-editor-label">
+				JSON-вміст файлу <code>site_content.json</code>
+			</label>
+
+			<textarea id="json-editor" name="content" spellcheck="false" autocomplete="off"
+				aria-label="Редактор JSON-сховища знань">{% if content_json is defined %}{{ content_json }}{% elif json_content is defined %}{{ json_content }}{% elif raw_json is defined %}{{ raw_json }}{% elif content is defined %}{{ content }}{% endif %}</textarea>
+
+			<div class="admin-editor-bottom">
+				<p>
+					Після натискання кнопки <strong>«Зберегти зміни»</strong>
+					дані будуть записані у файл сховища знань.
+				</p>
+
+				<button type="submit" class="btn">Зберегти зміни</button>
+			</div>
+		</form>
+	</section>
+
+	<section class="admin-section" aria-labelledby="admin-structure-heading">
+		<div class="admin-section-header">
+			<p class="admin-section-kicker">Структура</p>
+			<h2 id="admin-structure-heading">Основні блоки сховища знань</h2>
+			<p>
+				Ці блоки бажано зберігати у файлі, оскільки вони використовуються
+				на сторінках сайту та в логіці відповідей асистента.
+			</p>
+		</div>
+
+		<div class="admin-structure-grid">
+			<div class="admin-structure-card">
+				<h3>announcement</h3>
+				<p>Актуальне оголошення для головної сторінки.</p>
+			</div>
+
+			<div class="admin-structure-card">
+				<h3>news</h3>
+				<p>Новини, події та оголошення кафедри.</p>
+			</div>
+
+			<div class="admin-structure-card">
+				<h3>contacts</h3>
+				<p>Адреса, телефон, email і графік прийому.</p>
+			</div>
+
+			<div class="admin-structure-card">
+				<h3>programs</h3>
+				<p>Освітні програми, рівні підготовки та ключові напрями.</p>
+			</div>
+
+			<div class="admin-structure-card">
+				<h3>admission</h3>
+				<p>Інформація для абітурієнтів, документи та вимоги.</p>
+			</div>
+
+			<div class="admin-structure-card">
+				<h3>faq</h3>
+				<p>Типові питання, які може використовувати асистент.</p>
+			</div>
+		</div>
+	</section>
+
+	<section class="admin-section" aria-labelledby="admin-rules-heading">
+		<div class="admin-section-header">
+			<p class="admin-section-kicker">Правила</p>
+			<h2 id="admin-rules-heading">Що перевірити перед збереженням</h2>
+		</div>
+
+		<div class="admin-rules-grid">
+			<div class="admin-rule-card">
+				<span class="admin-rule-icon">✓</span>
+				<p>JSON має починатися з фігурної дужки <code>{</code> і закінчуватися <code>}</code>.</p>
+			</div>
+
+			<div class="admin-rule-card">
+				<span class="admin-rule-icon">✓</span>
+				<p>Ключі та текстові значення мають бути в подвійних лапках.</p>
+			</div>
+
+			<div class="admin-rule-card">
+				<span class="admin-rule-icon">✓</span>
+				<p>Між елементами мають бути коми, але після останнього елемента кома не ставиться.</p>
+			</div>
+
+			<div class="admin-rule-card">
+				<span class="admin-rule-icon">✓</span>
+				<p>Після зміни даних потрібно перевірити головну сторінку, асистента і сторінку, яку було змінено.</p>
+			</div>
+		</div>
+	</section>
+
+	<section class="admin-cta" aria-labelledby="admin-cta-heading">
+		<div>
+			<p class="admin-section-kicker">Курсова робота</p>
+			<h2 id="admin-cta-heading">Адмін-панель демонструє керування сховищем знань</h2>
+			<p>
+				Цей модуль показує практичну частину курсової: дані зберігаються централізовано,
+				редагуються через адміністративну панель і використовуються як вебсторінками,
+				так і інтелектуальним асистентом.
+			</p>
+		</div>
+
+		<div class="admin-cta-actions">
+			<a class="btn" href="{{ url_for('home') }}">Перевірити сайт</a>
+			<a class="btn btn-secondary" href="{{ url_for('contacts') }}">Контакти</a>
+		</div>
+	</section>
+</article>
+{% endblock %}

@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="uk">
+
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>{% block title %}Кафедра Систем Штучного Інтелекту та Аналізу Даних — ТНТУ{% endblock %}</title>
+	<meta name="description"
+		content="{% block meta_description %}Офіційна сторінка кафедри. Інформація про програми, наукову діяльність, новини та контакти.{% endblock %}" />
+	<link rel="stylesheet" href="{{ url_for('static', path='css/style.css') }}" />
+	<link rel="icon" type="image/x-icon" href="{{ url_for('static', path='images/favicon.ico') }}">
+	{% block head_extra %}{% endblock %}
+</head>
+
+<body>
+	<header class="site-header" role="banner">
+		<div class="container header-inner">
+			<div class="brand">
+				<a href="{{ url_for('home') }}" class="brand-link">
+					<img src="{{ url_for('static', path='images/logo.png') }}" alt="Логотип кафедри" class="logo" />
+					<div class="brand-text">
+						<div class="institution">Тернопільський національний технічний університет</div>
+						<div class="department">Кафедра систем Штучного Інтелекту та Аналізу Даних</div>
+					</div>
+				</a>
+			</div>
+
+			<div class="header-actions">
+				<form class="search-form" action="{{ url_for('search') }}" method="get" role="search">
+					<label for="q" class="visually-hidden">Пошук по сайту</label>
+					<input id="q" name="q" type="search" placeholder="Пошук по сайту..." aria-label="Пошук по сайту" />
+					<button type="submit" class="btn">Пошук</button>
+				</form>
+			</div>
+		</div>
+	</header>
+
+	<nav class="main-nav" role="navigation" aria-label="Головне меню">
+		<div class="container nav-inner">
+			<ul class="nav-list">
+				<li class="nav-item"><a href="{{ url_for('home') }}">Головна</a></li>
+				<li class="nav-item"><a href="{{ url_for('programs') }}">Освітні програми</a></li>
+				<li class="nav-item"><a href="{{ url_for('science') }}">Наука</a></li>
+				<li class="nav-item"><a href="{{ url_for('news') }}">Новини</a></li>
+				<li class="nav-item"><a href="{{ url_for('abiturients') }}">Абітурієнту</a></li>
+				<li class="nav-item"><a href="{{ url_for('contacts') }}">Контакти</a></li>
+			</ul>
+		</div>
+	</nav>
+
+	<section class="announcement" role="region" aria-label="Оголошення">
+		<div class="container">
+			<p><strong>Оголошення:</strong> {{ content.announcement if content is defined else "Набір на нову
+				магістерську програму з ШІ відкрито. Деталі — у розділі «Освітні програми»." }}</p>
+		</div>
+	</section>
+
+	<div class="container layout">
+		<main class="main-content" role="main">
+			{% if breadcrumbs is defined %}
+			<nav class="breadcrumbs" aria-label="Хлібні крихти">
+				{% for crumb in breadcrumbs %}
+				{% if not loop.last %}
+				<a href="{{ crumb.url }}">{{ crumb.title }}</a> ›
+				{% else %}
+				<span aria-current="page">{{ crumb.title }}</span>
+				{% endif %}
+				{% endfor %}
+			</nav>
+			{% endif %}
+
+			<section class="page-content">
+				{% block content %}
+				<h1>Ласкаво просимо на сторінку кафедри</h1>
+				<p>Тут буде інформація про освітні програми, наукову діяльність, новини та контакти кафедри.</p>
+				{% endblock %}
+			</section>
+		</main>
+
+		<aside class="sidebar" role="complementary" aria-label="Бічні посилання">
+			<div class="widget">
+				<h3>Швидкі посилання</h3>
+				<ul>
+					<li><a href="{{ url_for('programs') }}">Програми навчання</a></li>
+					<li><a href="{{ url_for('news') }}">Останні новини</a></li>
+					<li><a href="{{ url_for('contacts') }}">Контакти</a></li>
+					<li><a href="#">Графіки навчального процесу (PDF)</a></li>
+				</ul>
+			</div>
+
+			<div class="widget">
+				<h3>Контакт</h3>
+				<address>
+					ТНТУ, вул. Руська, 56, корпус 2, к.62<br />
+					Тел.: <a href="tel:+380931991085">+38 (093) 199-10-85</a><br />
+					Email: <a href="mailto:kaf_ai@tntu.edu.ua">kaf_ai@tntu.edu.ua</a>
+				</address>
+			</div>
+
+			<div class="widget">
+				<h3>Графік прийому</h3>
+				<p>Понеділок — П'ятниця: 10:00 — 12:00</p>
+			</div>
+		</aside>
+	</div>
+
+	<footer class="site-footer" role="contentinfo">
+		<div class="container footer-inner">
+			<div class="footer-col">
+				<h4>Про кафедру</h4>
+				<p>Кафедра готує фахівців у галузі штучного інтелекту, аналізу даних та системного аналізу. Ми поєднуємо
+					теорію з практикою.</p>
+			</div>
+
+			<div class="footer-col">
+				<h4>Корисні посилання</h4>
+				<ul>
+					<li><a href="https://kaf-ai.tntu.edu.ua" target="_blank" rel="noopener">Офіційний сайт кафедри</a>
+					</li>
+					<li><a href="{{ url_for('schedule') }}">Розклад занять</a></li>
+					<li><a href="{{ url_for('internships') }}">Практики та стажування</a></li>
+				</ul>
+			</div>
+
+			<div class="footer-col">
+				<h4>Контакти</h4>
+				<p>Адреса: м. Тернопіль, вул. Руська, 56</p>
+				<p>Email: <a href="mailto:kaf_ai@tntu.edu.ua">kaf_ai@tntu.edu.ua</a></p>
+			</div>
+		</div>
+
+		<div class="container footer-bottom">
+			<p>© {{ current_year if current_year is defined else 2025 }} Кафедра СШІАД ТНТУ. Всі права захищені.</p>
+		</div>
+	</footer>
+
+
+	{% block scripts %}{% endblock %}
+
+
+	<button id="kaf-assistant-btn" title="Поставити питання">🤖</button>
+
+	<div id="kaf-assistant-panel" role="dialog" aria-label="Інтелектуальний асистент" hidden>
+		<header>
+			<span>Асистент кафедри</span>
+		</header>
+		<div class="kaf-assistant-body" id="kaf-chat-output" aria-live="polite"></div>
+		<div class="kaf-assistant-footer">
+			<input id="kaf-chat-input" placeholder="Напишіть питання..." aria-label="Питання" />
+			<button id="kaf-chat-send" class="btn">Запитати</button>
+		</div>
+	</div>
+
+	<script src="{{ url_for('static', path='js/assistant.js') }}"></script>
+
+</body>
+
+</html>

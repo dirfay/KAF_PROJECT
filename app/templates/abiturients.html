@@ -1,0 +1,210 @@
+{% extends "base.html" %}
+
+{% block title %}Абітурієнту — Кафедра СШІАД ТНТУ{% endblock %}
+{% block meta_description %}Інформація для абітурієнтів: вступ, документи, етапи подачі, умови навчання, гуртожиток та
+контакти для консультацій.{% endblock %}
+
+{% block content %}
+{% set admission = content.admission if content is defined and content.admission is defined else {} %}
+
+<article class="abiturients-modern-page">
+	<section class="admission-cover" aria-labelledby="admission-cover-title">
+		<div class="admission-cover-content">
+			<p class="admission-eyebrow">Абітурієнту</p>
+
+			<h1 id="admission-cover-title" class="admission-cover-title">
+				Інформація для вступників на освітні програми кафедри
+			</h1>
+
+			<p class="admission-cover-lead">
+				На цій сторінці зібрано основну інформацію про вступ, подачу документів,
+				вступні вимоги, форму навчання, гуртожиток і корисні посилання для абітурієнтів.
+			</p>
+
+			<div class="admission-cover-actions" aria-label="Основні дії для вступника">
+				<a class="btn" href="{{ url_for('programs') }}">Переглянути програми</a>
+				<a class="btn btn-secondary" href="{{ url_for('contacts') }}">Зв’язатися з кафедрою</a>
+			</div>
+		</div>
+
+		<div class="admission-cover-aside" aria-label="Короткі орієнтири для вступника">
+			<div class="admission-info-card">
+				<span class="admission-info-number">01</span>
+				<span class="admission-info-title">Оберіть програму</span>
+				<span class="admission-info-text">перегляньте бакалаврські та магістерські напрями</span>
+			</div>
+
+			<div class="admission-info-card">
+				<span class="admission-info-number">02</span>
+				<span class="admission-info-title">Підготуйте документи</span>
+				<span class="admission-info-text">перевірте перелік потрібних матеріалів</span>
+			</div>
+
+			<div class="admission-info-card">
+				<span class="admission-info-number">03</span>
+				<span class="admission-info-title">Подайте заяву</span>
+				<span class="admission-info-text">дотримуйтеся актуальних правил прийому</span>
+			</div>
+		</div>
+	</section>
+
+	<section class="admission-section" aria-labelledby="admission-summary-heading">
+		<div class="admission-section-header">
+			<p class="admission-section-kicker">Коротко</p>
+			<h2 id="admission-summary-heading">Коротко про вступ</h2>
+		</div>
+
+		<div class="admission-text-card">
+			<p>
+				{{ admission.summary if admission.summary is defined else "Інформація про вступ тимчасово уточнюється.
+				Для деталей зверніться до кафедри або скористайтеся сторінкою контактів." }}
+			</p>
+		</div>
+	</section>
+
+	<section class="admission-section" aria-labelledby="apply-heading">
+		<div class="admission-section-header">
+			<p class="admission-section-kicker">Порядок дій</p>
+			<h2 id="apply-heading">Як податися</h2>
+			<p>
+				Нижче подано базову послідовність дій для вступника. Дані можуть оновлюватися
+				через сховище знань сайту.
+			</p>
+		</div>
+
+		{% if admission.how_to_apply is defined and admission.how_to_apply %}
+		{% if admission.how_to_apply is string %}
+		<div class="admission-text-card">
+			<p>{{ admission.how_to_apply }}</p>
+		</div>
+		{% else %}
+		<div class="admission-steps">
+			{% for step in admission.how_to_apply %}
+			<div class="admission-step-card">
+				<span class="admission-step-number">{{ "%02d"|format(loop.index) }}</span>
+				<p>{{ step }}</p>
+			</div>
+			{% endfor %}
+		</div>
+		{% endif %}
+		{% else %}
+		<div class="admission-empty-card">
+			<h3>Порядок подачі документів буде опублікований додатково</h3>
+			<p>Інформація з’явиться після оновлення блоку admission у сховищі знань.</p>
+		</div>
+		{% endif %}
+	</section>
+
+	<section class="admission-section" aria-labelledby="documents-heading">
+		<div class="admission-section-header">
+			<p class="admission-section-kicker">Документи</p>
+			<h2 id="documents-heading">Необхідні документи</h2>
+		</div>
+
+		{% if admission.documents is defined and admission.documents %}
+		<div class="admission-check-grid">
+			{% for item in admission.documents %}
+			<div class="admission-check-card">
+				<span class="admission-check-icon">✓</span>
+				<p>{{ item }}</p>
+			</div>
+			{% endfor %}
+		</div>
+		{% else %}
+		<div class="admission-empty-card">
+			<h3>Перелік документів тимчасово недоступний</h3>
+			<p>Актуальний перелік документів буде додано до сховища знань.</p>
+		</div>
+		{% endif %}
+	</section>
+
+	<section class="admission-section" aria-labelledby="requirements-heading">
+		<div class="admission-section-header">
+			<p class="admission-section-kicker">Вимоги</p>
+			<h2 id="requirements-heading">Вступні вимоги</h2>
+		</div>
+
+		{% if admission.entry_exams is defined and admission.entry_exams %}
+		{% if admission.entry_exams is string %}
+		<div class="admission-text-card">
+			<p>{{ admission.entry_exams }}</p>
+		</div>
+		{% else %}
+		<div class="admission-requirements-list">
+			{% for exam in admission.entry_exams %}
+			<div class="admission-requirement-item">
+				<span class="admission-requirement-marker"></span>
+				<p>{{ exam }}</p>
+			</div>
+			{% endfor %}
+		</div>
+		{% endif %}
+		{% else %}
+		<div class="admission-empty-card">
+			<h3>Актуальні умови вступу уточнюйте у приймальній комісії</h3>
+			<p>Після оновлення правил прийому інформація може бути додана до цієї сторінки.</p>
+		</div>
+		{% endif %}
+	</section>
+
+	<section class="admission-details-grid" aria-label="Додаткова інформація для вступника">
+		<div class="admission-detail-card">
+			<p class="admission-section-kicker">Навчання</p>
+			<h2>Форма навчання та вартість</h2>
+			<p>
+				{{ admission.tuition if admission.tuition is defined else "Інформація про бюджетні та контрактні місця
+				буде уточнюватися відповідно до правил прийому." }}
+			</p>
+		</div>
+
+		<div class="admission-detail-card">
+			<p class="admission-section-kicker">Проживання</p>
+			<h2>Гуртожиток</h2>
+			<p>
+				{{ admission.dormitory if admission.dormitory is defined else "Інформацію про поселення в гуртожиток
+				уточнюйте додатково після зарахування." }}
+			</p>
+		</div>
+	</section>
+
+	<section class="admission-section" aria-labelledby="useful-heading">
+		<div class="admission-section-header">
+			<p class="admission-section-kicker">Корисно знати</p>
+			<h2 id="useful-heading">Що ще переглянути вступнику</h2>
+		</div>
+
+		<div class="admission-links-grid">
+			<a class="admission-link-card" href="{{ url_for('news') }}">
+				<span class="admission-link-title">Новини кафедри</span>
+				<span class="admission-link-text">актуальні оголошення та оновлення</span>
+			</a>
+
+			<a class="admission-link-card" href="{{ url_for('programs') }}">
+				<span class="admission-link-title">Освітні програми</span>
+				<span class="admission-link-text">перелік програм і короткий опис навчання</span>
+			</a>
+
+			<a class="admission-link-card" href="{{ url_for('contacts') }}">
+				<span class="admission-link-title">Контакти</span>
+				<span class="admission-link-text">адреса, телефон, email і графік прийому</span>
+			</a>
+		</div>
+	</section>
+
+	<section class="admission-cta" aria-labelledby="admission-cta-heading">
+		<div>
+			<p class="admission-section-kicker">Потрібна консультація?</p>
+			<h2 id="admission-cta-heading">Зверніться до кафедри або поставте питання асистенту</h2>
+			<p>
+				Якщо потрібна додаткова інформація про вступ, освітні програми або контакти,
+				можна перейти на сторінку контактів або скористатися інтелектуальним асистентом сайту.
+			</p>
+		</div>
+
+		<div class="admission-cta-actions">
+			<a class="btn" href="{{ url_for('contacts') }}">Контакти кафедри</a>
+			<a class="btn btn-secondary" href="{{ url_for('programs') }}">Освітні програми</a>
+		</div>
+	</section>
+</article>
+{% endblock %}

@@ -1,0 +1,308 @@
+{% extends "base.html" %}
+
+{% block title %}Стажування — Кафедра СШІАД ТНТУ{% endblock %}
+{% block meta_description %}Інформація про стажування, практику, партнерські можливості, проєкти та професійний розвиток
+студентів кафедри.{% endblock %}
+
+{% block content %}
+{% set internships = content.internships if content is defined and content.internships is defined else {} %}
+{% set opportunities = internships.opportunities if internships.opportunities is defined else [] %}
+{% set directions = internships.directions if internships.directions is defined else [] %}
+{% set partners = internships.partners if internships.partners is defined else [] %}
+{% set steps = internships.how_to_apply if internships.how_to_apply is defined else [] %}
+{% set requirements = internships.requirements if internships.requirements is defined else [] %}
+
+<article class="internships-modern-page">
+	<section class="internships-cover" aria-labelledby="internships-cover-title">
+		<div class="internships-cover-content">
+			<p class="internships-eyebrow">Стажування та практика</p>
+
+			<h1 id="internships-cover-title" class="internships-cover-title">
+				Практичний досвід для студентів у сфері ІТ, штучного інтелекту та аналізу даних
+			</h1>
+
+			<p class="internships-cover-lead">
+				Сторінка містить інформацію про можливості стажування, практики,
+				участі у прикладних проєктах і професійного розвитку студентів кафедри.
+			</p>
+
+			<div class="internships-cover-actions" aria-label="Основні дії">
+				<a class="btn" href="{{ url_for('programs') }}">Освітні програми</a>
+				<a class="btn btn-secondary" href="{{ url_for('contacts') }}">Зв’язатися з кафедрою</a>
+			</div>
+		</div>
+
+		<div class="internships-cover-aside" aria-label="Короткі напрями стажування">
+			<div class="internships-info-card">
+				<span class="internships-info-number">IT</span>
+				<span class="internships-info-title">Практика</span>
+				<span class="internships-info-text">застосування знань у реальних або навчальних проєктах</span>
+			</div>
+
+			<div class="internships-info-card">
+				<span class="internships-info-number">AI</span>
+				<span class="internships-info-title">Штучний інтелект</span>
+				<span class="internships-info-text">участь у задачах машинного навчання та аналізу даних</span>
+			</div>
+
+			<div class="internships-info-card">
+				<span class="internships-info-number">Job</span>
+				<span class="internships-info-title">Кар’єра</span>
+				<span class="internships-info-text">підготовка до першого професійного досвіду</span>
+			</div>
+		</div>
+	</section>
+
+	<section class="internships-section" aria-labelledby="internships-summary-heading">
+		<div class="internships-section-header">
+			<p class="internships-section-kicker">Коротко</p>
+			<h2 id="internships-summary-heading">Про стажування</h2>
+		</div>
+
+		<div class="internships-text-card">
+			<p>
+				{{ internships.summary if internships.summary is defined else "Кафедра підтримує професійний розвиток
+				студентів через навчальну практику, стажування, участь у прикладних проєктах, дослідницьких ініціативах
+				і підготовку до роботи у сфері сучасних інформаційних технологій." }}
+			</p>
+		</div>
+	</section>
+
+	<section class="internships-section" aria-labelledby="opportunities-heading">
+		<div class="internships-section-header">
+			<p class="internships-section-kicker">Можливості</p>
+			<h2 id="opportunities-heading">Основні можливості для студентів</h2>
+			<p>
+				Стажування і практика допомагають поєднати навчання з реальними задачами,
+				розробкою програмних рішень і роботою з даними.
+			</p>
+		</div>
+
+		{% if opportunities %}
+		<div class="internships-opportunities-grid">
+			{% for item in opportunities %}
+			<div class="internships-opportunity-card">
+				<span class="internships-opportunity-number">{{ "%02d"|format(loop.index) }}</span>
+				<p>{{ item }}</p>
+			</div>
+			{% endfor %}
+		</div>
+		{% else %}
+		<div class="internships-opportunities-grid">
+			<div class="internships-opportunity-card">
+				<span class="internships-opportunity-number">01</span>
+				<p>Навчальна та виробнича практика в межах освітньої програми.</p>
+			</div>
+
+			<div class="internships-opportunity-card">
+				<span class="internships-opportunity-number">02</span>
+				<p>Участь у кафедральних ІТ-проєктах, пов’язаних із веброзробкою, аналізом даних та AI.</p>
+			</div>
+
+			<div class="internships-opportunity-card">
+				<span class="internships-opportunity-number">03</span>
+				<p>Підготовка портфоліо, практичних робіт і демонстраційних прототипів.</p>
+			</div>
+
+			<div class="internships-opportunity-card">
+				<span class="internships-opportunity-number">04</span>
+				<p>Отримання досвіду командної роботи, постановки задач і презентації результатів.</p>
+			</div>
+		</div>
+		{% endif %}
+	</section>
+
+	<section class="internships-section" aria-labelledby="directions-heading">
+		<div class="internships-section-header">
+			<p class="internships-section-kicker">Напрями</p>
+			<h2 id="directions-heading">Напрями стажування та практики</h2>
+		</div>
+
+		{% if directions %}
+		<div class="internships-directions-grid">
+			{% for direction in directions %}
+			<div class="internships-direction-card">
+				<h3>{{ direction }}</h3>
+			</div>
+			{% endfor %}
+		</div>
+		{% else %}
+		<div class="internships-directions-grid">
+			<div class="internships-direction-card">
+				<h3>Веброзробка</h3>
+				<p>створення інформаційних систем, сайтів, адміністративних панелей і сервісів.</p>
+			</div>
+
+			<div class="internships-direction-card">
+				<h3>Аналіз даних</h3>
+				<p>збір, очищення, структурування, візуалізація та інтерпретація даних.</p>
+			</div>
+
+			<div class="internships-direction-card">
+				<h3>Штучний інтелект</h3>
+				<p>прикладні задачі машинного навчання, класифікації, пошуку та рекомендацій.</p>
+			</div>
+
+			<div class="internships-direction-card">
+				<h3>Бази знань</h3>
+				<p>побудова структурованих сховищ інформації для асистентів і вебсистем.</p>
+			</div>
+		</div>
+		{% endif %}
+	</section>
+
+	<section class="internships-section" aria-labelledby="apply-heading">
+		<div class="internships-section-header">
+			<p class="internships-section-kicker">Порядок дій</p>
+			<h2 id="apply-heading">Як долучитися</h2>
+			<p>
+				Студент може звернутися до кафедри, уточнити доступні напрями
+				та обрати тему практики або стажування відповідно до власних інтересів.
+			</p>
+		</div>
+
+		{% if steps %}
+		<div class="internships-steps">
+			{% for step in steps %}
+			<div class="internships-step-card">
+				<span class="internships-step-number">{{ "%02d"|format(loop.index) }}</span>
+				<p>{{ step }}</p>
+			</div>
+			{% endfor %}
+		</div>
+		{% else %}
+		<div class="internships-steps">
+			<div class="internships-step-card">
+				<span class="internships-step-number">01</span>
+				<p>Ознайомитися з освітніми програмами та напрямами кафедри.</p>
+			</div>
+
+			<div class="internships-step-card">
+				<span class="internships-step-number">02</span>
+				<p>Звернутися до викладача або відповідального представника кафедри.</p>
+			</div>
+
+			<div class="internships-step-card">
+				<span class="internships-step-number">03</span>
+				<p>Узгодити тему, формат роботи, очікувані результати та терміни виконання.</p>
+			</div>
+
+			<div class="internships-step-card">
+				<span class="internships-step-number">04</span>
+				<p>Підготувати звіт, демонстраційні матеріали або практичний результат.</p>
+			</div>
+		</div>
+		{% endif %}
+	</section>
+
+	<section class="internships-section" aria-labelledby="requirements-heading">
+		<div class="internships-section-header">
+			<p class="internships-section-kicker">Підготовка</p>
+			<h2 id="requirements-heading">Що бажано мати студенту</h2>
+		</div>
+
+		{% if requirements %}
+		<div class="internships-check-grid">
+			{% for item in requirements %}
+			<div class="internships-check-card">
+				<span class="internships-check-icon">✓</span>
+				<p>{{ item }}</p>
+			</div>
+			{% endfor %}
+		</div>
+		{% else %}
+		<div class="internships-check-grid">
+			<div class="internships-check-card">
+				<span class="internships-check-icon">✓</span>
+				<p>Базові навички програмування та роботи з інформаційними системами.</p>
+			</div>
+
+			<div class="internships-check-card">
+				<span class="internships-check-icon">✓</span>
+				<p>Готовність працювати з даними, документацією та навчальними матеріалами.</p>
+			</div>
+
+			<div class="internships-check-card">
+				<span class="internships-check-icon">✓</span>
+				<p>Вміння самостійно виконувати завдання і фіксувати результати роботи.</p>
+			</div>
+
+			<div class="internships-check-card">
+				<span class="internships-check-icon">✓</span>
+				<p>Бажання розвиватися у сфері ІТ, штучного інтелекту або аналізу даних.</p>
+			</div>
+		</div>
+		{% endif %}
+	</section>
+
+	<section class="internships-section" aria-labelledby="partners-heading">
+		<div class="internships-section-header">
+			<p class="internships-section-kicker">Партнери</p>
+			<h2 id="partners-heading">Партнерські та кафедральні можливості</h2>
+			<p>
+				Інформація про партнерів або конкретні пропозиції може оновлюватися
+				через JSON-сховище знань.
+			</p>
+		</div>
+
+		{% if partners %}
+		<div class="internships-partners-grid">
+			{% for partner in partners %}
+			<div class="internships-partner-card">
+				<span class="internships-partner-name">{{ partner }}</span>
+			</div>
+			{% endfor %}
+		</div>
+		{% else %}
+		<div class="internships-empty-card">
+			<h3>Партнерські пропозиції будуть додані пізніше</h3>
+			<p>
+				Після оновлення блоку <code>internships</code> у сховищі знань
+				інформація автоматично з’явиться на цій сторінці.
+			</p>
+		</div>
+		{% endif %}
+	</section>
+
+	<section class="internships-section" aria-labelledby="useful-internships-heading">
+		<div class="internships-section-header">
+			<p class="internships-section-kicker">Корисно знати</p>
+			<h2 id="useful-internships-heading">Пов’язані розділи сайту</h2>
+		</div>
+
+		<div class="internships-links-grid">
+			<a class="internships-link-card" href="{{ url_for('programs') }}">
+				<span class="internships-link-title">Освітні програми</span>
+				<span class="internships-link-text">напрями підготовки, які пов’язані з практикою</span>
+			</a>
+
+			<a class="internships-link-card" href="{{ url_for('science') }}">
+				<span class="internships-link-title">Наукова діяльність</span>
+				<span class="internships-link-text">дослідницькі напрями, проєкти та студентська участь</span>
+			</a>
+
+			<a class="internships-link-card" href="{{ url_for('contacts') }}">
+				<span class="internships-link-title">Контакти кафедри</span>
+				<span class="internships-link-text">зв’язок для уточнення деталей практики та стажування</span>
+			</a>
+		</div>
+	</section>
+
+	<section class="internships-cta" aria-labelledby="internships-cta-heading">
+		<div>
+			<p class="internships-section-kicker">Сховище знань</p>
+			<h2 id="internships-cta-heading">Інформація про стажування може використовуватися асистентом</h2>
+			<p>
+				Дані про стажування, напрями практики та можливості для студентів можуть
+				зберігатися у структурованому сховищі знань і використовуватися для відповідей
+				інтелектуального асистента.
+			</p>
+		</div>
+
+		<div class="internships-cta-actions">
+			<a class="btn" href="{{ url_for('contacts') }}">Уточнити деталі</a>
+			<a class="btn btn-secondary" href="{{ url_for('science') }}">Наукова діяльність</a>
+		</div>
+	</section>
+</article>
+{% endblock %}
