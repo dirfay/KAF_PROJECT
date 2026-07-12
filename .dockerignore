@@ -1,0 +1,13 @@
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.bak
+.vscode/
+.idea/
+.git/
+.gitignore
+.env
+*.log
+data/contact_submissions.json
+data/question_logs.json
