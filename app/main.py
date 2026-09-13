@@ -17,6 +17,7 @@ BASE_DIR = Path(__file__).resolve().parent
 DATA_PATH = BASE_DIR.parent / "data" / "site_content.json"
 QUESTION_LOGS_PATH = BASE_DIR.parent / "data" / "question_logs.json"
 
+
 app = FastAPI(title="KAF Project Demo")
 app.mount("/static", StaticFiles(directory=str(BASE_DIR / "static")), name="static")
 templates = Jinja2Templates(directory=str(BASE_DIR / "templates"))
