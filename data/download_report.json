@@ -1,0 +1,266 @@
+[
+    {
+        "id": "home",
+        "title": "Головна сторінка кафедри",
+        "url": "https://kaf-ai.tntu.edu.ua/",
+        "type": "web",
+        "success": true,
+        "message": "OK"
+    },
+    {
+        "id": "contacts",
+        "title": "Контакти кафедри",
+        "url": "https://kaf-ai.tntu.edu.ua/contacts/",
+        "type": "web",
+        "success": true,
+        "message": "OK"
+    },
+    {
+        "id": "staff",
+        "title": "Колектив кафедри",
+        "url": "https://kaf-ai.tntu.edu.ua/staff/",
+        "type": "web",
+        "success": true,
+        "message": "OK"
+    },
+    {
+        "id": "news",
+        "title": "Новини кафедри",
+        "url": "https://kaf-ai.tntu.edu.ua/news/",
+        "type": "web",
+        "success": true,
+        "message": "OK"
+    },
+    {
+        "id": "presentation",
+        "title": "Презентація кафедри",
+        "url": "https://kaf-ai.tntu.edu.ua/prezentatsiia-kafedry/",
+        "type": "web",
+        "success": true,
+        "message": "OK"
+    },
+    {
+        "id": "consultations",
+        "title": "Консультації викладачів",
+        "url": "https://kaf-ai.tntu.edu.ua/konsultatsii-vykladachiv-2/",
+        "type": "web",
+        "success": true,
+        "message": "OK"
+    },
+    {
+        "id": "academic_calendar",
+        "title": "Графіки навчального процесу",
+        "url": "https://kaf-ai.tntu.edu.ua/hrafiky-navchalnoho-protsesu/",
+        "type": "web",
+        "success": true,
+        "message": "OK"
+    },
+    {
+        "id": "education_programs",
+        "title": "Освітньо-професійні програми",
+        "url": "https://kaf-ai.tntu.edu.ua/osvitno-profesiyni-prohramy/",
+        "type": "web",
+        "success": true,
+        "message": "OK"
+    },
+    {
+        "id": "bachelor_programs",
+        "title": "Освітньо-професійні програми — бакалаврський рівень",
+        "url": "https://kaf-ai.tntu.edu.ua/osvitno-profesiyni-prohramy-b/",
+        "type": "web",
+        "success": true,
+        "message": "OK"
+    },
+    {
+        "id": "master_programs",
+        "title": "Освітньо-професійні програми — магістерський рівень",
+        "url": "https://kaf-ai.tntu.edu.ua/osvitno-profesiyni-prohramy-m/",
+        "type": "web",
+        "success": true,
+        "message": "OK"
+    },
+    {
+        "id": "f4_program",
+        "title": "F4 — Штучний інтелект і технології аналізу даних",
+        "url": "https://kaf-ai.tntu.edu.ua/f4-shtuchnyy-intelekt-i-tekhnolohii-analizu-danykh/",
+        "type": "web",
+        "success": true,
+        "message": "OK"
+    },
+    {
+        "id": "data_analysis_124",
+        "title": "124 — Інтелектуальний аналіз даних",
+        "url": "https://kaf-ai.tntu.edu.ua/124-intelektualnyy-analiz-danykh/",
+        "type": "web",
+        "success": true,
+        "message": "OK"
+    },
+    {
+        "id": "curriculum_bachelor",
+        "title": "Навчальні плани — бакалаврський рівень",
+        "url": "https://kaf-ai.tntu.edu.ua/navchalni-plany/",
+        "type": "web",
+        "success": true,
+        "message": "OK"
+    },
+    {
+        "id": "disciplines_bachelor",
+        "title": "Навчальні дисципліни — бакалаврський рівень",
+        "url": "https://kaf-ai.tntu.edu.ua/navchalni-dystsypliny-b/",
+        "type": "web",
+        "success": true,
+        "message": "OK"
+    },
+    {
+        "id": "curriculum_master",
+        "title": "Навчальні плани — магістерський рівень",
+        "url": "https://kaf-ai.tntu.edu.ua/navchalni-plany-3/",
+        "type": "web",
+        "success": true,
+        "message": "OK"
+    },
+    {
+        "id": "academic_research_program",
+        "title": "Освітньо-наукова програма",
+        "url": "https://kaf-ai.tntu.edu.ua/osvitno-naukova-prohrama/",
+        "type": "web",
+        "success": true,
+        "message": "OK"
+    },
+    {
+        "id": "curriculum_postgraduate",
+        "title": "Навчальні плани — освітньо-наукова програма",
+        "url": "https://kaf-ai.tntu.edu.ua/navchalni-plany-4/",
+        "type": "web",
+        "success": true,
+        "message": "OK"
+    },
+    {
+        "id": "postgraduate_department",
+        "title": "Відділ аспірантури",
+        "url": "https://phd.tntu.edu.ua/",
+        "type": "web",
+        "success": true,
+        "message": "OK"
+    },
+    {
+        "id": "infrastructure",
+        "title": "Матеріально-технічна база",
+        "url": "https://kaf-ai.tntu.edu.ua/materialno-tekhnichna-baza/",
+        "type": "web",
+        "success": true,
+        "message": "OK"
+    },
+    {
+        "id": "history",
+        "title": "Історія кафедри",
+        "url": "https://kaf-ai.tntu.edu.ua/history/",
+        "type": "web",
+        "success": true,
+        "message": "OK"
+    },
+    {
+        "id": "partners",
+        "title": "Партнери кафедри",
+        "url": "https://kaf-ai.tntu.edu.ua/partnery-kafedry/",
+        "type": "web",
+        "success": true,
+        "message": "OK"
+    },
+    {
+        "id": "applicant_site",
+        "title": "Інформаційний сайт абітурієнта",
+        "url": "https://vstup.tntu.edu.ua/speciality/124-systemnyy-analiz.html",
+        "type": "web",
+        "success": true,
+        "message": "OK"
+    },
+    {
+        "id": "admission_rules",
+        "title": "Правила прийому ТНТУ",
+        "url": "https://tntu.edu.ua/?p=uk/admission/rules",
+        "type": "web",
+        "success": true,
+        "message": "OK"
+    },
+    {
+        "id": "admission_documents",
+        "title": "Документи для вступу",
+        "url": "https://tntu.edu.ua/?p=uk/admission/admission-docs",
+        "type": "web",
+        "success": true,
+        "message": "OK"
+    },
+    {
+        "id": "tuition_prices",
+        "title": "Вартість навчання",
+        "url": "https://tntu.edu.ua/?p=uk/admission/prices",
+        "type": "web",
+        "success": true,
+        "message": "OK"
+    },
+    {
+        "id": "preparatory_department",
+        "title": "Підготовче відділення",
+        "url": "https://job.tntu.edu.ua/pidhotovche-viddilennya/",
+        "type": "web",
+        "success": true,
+        "message": "OK"
+    },
+    {
+        "id": "nmt_calculator",
+        "title": "Калькулятор балів НМТ",
+        "url": "https://vstup.tntu.edu.ua/kalkuliator-sertyfikativ-zno.html",
+        "type": "web",
+        "success": true,
+        "message": "OK"
+    },
+    {
+        "id": "survey_reports",
+        "title": "Звіти про опитування",
+        "url": "https://kaf-ai.tntu.edu.ua/zvity-pro-opytuvannia/",
+        "type": "web",
+        "success": true,
+        "message": "OK"
+    },
+    {
+        "id": "master_standard_2021",
+        "title": "Стандарт вищої освіти — спеціальність 124 «Системний аналіз», другий магістерський рівень",
+        "url": "https://kaf-ai.tntu.edu.ua/wp-content/uploads/124-Systemnyy-analiz_mahistr_18_03_21_331.pdf",
+        "type": "pdf",
+        "success": true,
+        "message": "OK"
+    },
+    {
+        "id": "master_opp_2024",
+        "title": "ОПП «Системний аналіз» — 2024",
+        "url": "https://kaf-ai.tntu.edu.ua/wp-content/uploads/op124m.pdf",
+        "type": "pdf",
+        "success": true,
+        "message": "OK"
+    },
+    {
+        "id": "bachelor_opp_2025",
+        "title": "ОПП «Штучний інтелект і технології аналізу даних» — 2025",
+        "url": "https://kaf-ai.tntu.edu.ua/wp-content/uploads/OP_AI_2025.pdf",
+        "type": "pdf",
+        "success": true,
+        "message": "OK"
+    },
+    {
+        "id": "bachelor_opp_2024",
+        "title": "ОПП «Інтелектуальний аналіз даних» — 2024",
+        "url": "https://kaf-ai.tntu.edu.ua/wp-content/uploads/OP-124-2024_with_changes.pdf",
+        "type": "pdf",
+        "success": true,
+        "message": "OK"
+    },
+    {
+        "id": "presentation_pdf",
+        "title": "Презентація кафедри — PDF",
+        "url": "https://kaf-ai.tntu.edu.ua/wp-content/uploads/Kaf-AI.pdf",
+        "type": "pdf",
+        "success": true,
+        "message": "OK"
+    }
+]
