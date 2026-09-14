@@ -1,0 +1,456 @@
+{
+  "summary": {
+    "system": "E1_BM25",
+    "queries": 20,
+    "top_k": 10,
+    "recall_at_10": 0.9416666666666667,
+    "mrr": 0.8291666666666666,
+    "ndcg_at_10": 0.8489482596347914
+  },
+  "results": [
+    {
+      "id": "q01",
+      "query": "контакти кафедри",
+      "relevant_sources": [
+        "contacts"
+      ],
+      "ranked_sources": [
+        "contacts",
+        "presentation_pdf",
+        "consultations",
+        "data_analysis_124",
+        "f4_program",
+        "academic_calendar",
+        "curriculum_master",
+        "curriculum_postgraduate",
+        "infrastructure",
+        "curriculum_bachelor"
+      ],
+      "recall_at_1": 1.0,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "recall_at_10": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_5": 1.0,
+      "ndcg_at_10": 1.0
+    },
+    {
+      "id": "q02",
+      "query": "номер телефону кафедри",
+      "relevant_sources": [
+        "contacts"
+      ],
+      "ranked_sources": [
+        "staff",
+        "partners",
+        "contacts",
+        "presentation",
+        "presentation_pdf",
+        "history"
+      ],
+      "recall_at_1": 0.0,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "recall_at_10": 1.0,
+      "reciprocal_rank": 0.3333333333333333,
+      "ndcg_at_5": 0.5,
+      "ndcg_at_10": 0.5
+    },
+    {
+      "id": "q03",
+      "query": "хто працює на кафедрі",
+      "relevant_sources": [
+        "staff"
+      ],
+      "ranked_sources": [
+        "applicant_site",
+        "news",
+        "postgraduate_department",
+        "home",
+        "contacts",
+        "staff",
+        "presentation",
+        "consultations",
+        "academic_calendar"
+      ],
+      "recall_at_1": 0.0,
+      "recall_at_3": 0.0,
+      "recall_at_5": 0.0,
+      "recall_at_10": 1.0,
+      "reciprocal_rank": 0.16666666666666666,
+      "ndcg_at_5": 0.0,
+      "ndcg_at_10": 0.3562071871080222
+    },
+    {
+      "id": "q04",
+      "query": "новини кафедри",
+      "relevant_sources": [
+        "news"
+      ],
+      "ranked_sources": [
+        "news",
+        "admission_documents",
+        "tuition_prices",
+        "admission_rules",
+        "staff",
+        "partners",
+        "contacts",
+        "presentation",
+        "presentation_pdf"
+      ],
+      "recall_at_1": 1.0,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "recall_at_10": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_5": 1.0,
+      "ndcg_at_10": 1.0
+    },
+    {
+      "id": "q05",
+      "query": "освітня програма бакалавра",
+      "relevant_sources": [
+        "bachelor_opp_2025",
+        "bachelor_programs"
+      ],
+      "ranked_sources": [
+        "curriculum_bachelor",
+        "academic_research_program",
+        "bachelor_opp_2024",
+        "bachelor_opp_2025",
+        "bachelor_programs",
+        "education_programs",
+        "master_programs",
+        "presentation_pdf",
+        "applicant_site"
+      ],
+      "recall_at_1": 0.0,
+      "recall_at_3": 0.0,
+      "recall_at_5": 1.0,
+      "recall_at_10": 1.0,
+      "reciprocal_rank": 0.25,
+      "ndcg_at_5": 0.5012658353418871,
+      "ndcg_at_10": 0.5012658353418871
+    },
+    {
+      "id": "q06",
+      "query": "штучний інтелект і технології аналізу даних",
+      "relevant_sources": [
+        "bachelor_opp_2025",
+        "f4_program"
+      ],
+      "ranked_sources": [
+        "bachelor_opp_2025",
+        "f4_program"
+      ],
+      "recall_at_1": 0.5,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "recall_at_10": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_5": 1.0,
+      "ndcg_at_10": 1.0
+    },
+    {
+      "id": "q07",
+      "query": "магістерська програма системний аналіз",
+      "relevant_sources": [
+        "master_opp_2024",
+        "master_programs"
+      ],
+      "ranked_sources": [
+        "presentation",
+        "master_opp_2024",
+        "academic_research_program",
+        "curriculum_postgraduate",
+        "master_standard_2021",
+        "bachelor_opp_2024",
+        "bachelor_programs"
+      ],
+      "recall_at_1": 0.0,
+      "recall_at_3": 0.5,
+      "recall_at_5": 0.5,
+      "recall_at_10": 0.5,
+      "reciprocal_rank": 0.5,
+      "ndcg_at_5": 0.38685280723454163,
+      "ndcg_at_10": 0.38685280723454163
+    },
+    {
+      "id": "q08",
+      "query": "навчальні плани бакалавра",
+      "relevant_sources": [
+        "curriculum_bachelor"
+      ],
+      "ranked_sources": [
+        "curriculum_bachelor",
+        "curriculum_postgraduate",
+        "curriculum_master",
+        "disciplines_bachelor",
+        "bachelor_opp_2024",
+        "bachelor_opp_2025",
+        "admission_documents"
+      ],
+      "recall_at_1": 1.0,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "recall_at_10": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_5": 1.0,
+      "ndcg_at_10": 1.0
+    },
+    {
+      "id": "q09",
+      "query": "навчальні дисципліни бакалавр",
+      "relevant_sources": [
+        "disciplines_bachelor"
+      ],
+      "ranked_sources": [
+        "disciplines_bachelor",
+        "curriculum_postgraduate",
+        "bachelor_opp_2025",
+        "curriculum_master",
+        "curriculum_bachelor",
+        "bachelor_opp_2024",
+        "admission_documents",
+        "master_standard_2021"
+      ],
+      "recall_at_1": 1.0,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "recall_at_10": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_5": 1.0,
+      "ndcg_at_10": 1.0
+    },
+    {
+      "id": "q10",
+      "query": "правила вступу до ТНТУ",
+      "relevant_sources": [
+        "admission_rules"
+      ],
+      "ranked_sources": [
+        "admission_rules",
+        "admission_documents",
+        "tuition_prices"
+      ],
+      "recall_at_1": 1.0,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "recall_at_10": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_5": 1.0,
+      "ndcg_at_10": 1.0
+    },
+    {
+      "id": "q11",
+      "query": "документи для вступу",
+      "relevant_sources": [
+        "admission_documents"
+      ],
+      "ranked_sources": [
+        "admission_documents"
+      ],
+      "recall_at_1": 1.0,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "recall_at_10": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_5": 1.0,
+      "ndcg_at_10": 1.0
+    },
+    {
+      "id": "q12",
+      "query": "вартість навчання",
+      "relevant_sources": [
+        "tuition_prices"
+      ],
+      "ranked_sources": [
+        "tuition_prices"
+      ],
+      "recall_at_1": 1.0,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "recall_at_10": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_5": 1.0,
+      "ndcg_at_10": 1.0
+    },
+    {
+      "id": "q13",
+      "query": "калькулятор балів НМТ",
+      "relevant_sources": [
+        "nmt_calculator"
+      ],
+      "ranked_sources": [
+        "nmt_calculator",
+        "preparatory_department",
+        "presentation_pdf",
+        "home",
+        "contacts",
+        "staff",
+        "news",
+        "presentation",
+        "consultations"
+      ],
+      "recall_at_1": 1.0,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "recall_at_10": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_5": 1.0,
+      "ndcg_at_10": 1.0
+    },
+    {
+      "id": "q14",
+      "query": "партнери кафедри",
+      "relevant_sources": [
+        "partners"
+      ],
+      "ranked_sources": [
+        "partners",
+        "admission_documents",
+        "tuition_prices",
+        "admission_rules",
+        "staff",
+        "contacts",
+        "presentation"
+      ],
+      "recall_at_1": 1.0,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "recall_at_10": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_5": 1.0,
+      "ndcg_at_10": 1.0
+    },
+    {
+      "id": "q15",
+      "query": "матеріально технічна база кафедри",
+      "relevant_sources": [
+        "infrastructure"
+      ],
+      "ranked_sources": [
+        "infrastructure",
+        "bachelor_opp_2024",
+        "bachelor_opp_2025",
+        "admission_documents",
+        "tuition_prices",
+        "admission_rules",
+        "staff",
+        "partners",
+        "contacts"
+      ],
+      "recall_at_1": 1.0,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "recall_at_10": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_5": 1.0,
+      "ndcg_at_10": 1.0
+    },
+    {
+      "id": "q16",
+      "query": "стандарт спеціальності 124 системний аналіз",
+      "relevant_sources": [
+        "master_standard_2021"
+      ],
+      "ranked_sources": [
+        "master_standard_2021"
+      ],
+      "recall_at_1": 1.0,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "recall_at_10": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_5": 1.0,
+      "ndcg_at_10": 1.0
+    },
+    {
+      "id": "q17",
+      "query": "освітня програма системний аналіз 2024",
+      "relevant_sources": [
+        "master_opp_2024"
+      ],
+      "ranked_sources": [
+        "master_opp_2024",
+        "academic_research_program",
+        "bachelor_programs",
+        "master_programs",
+        "bachelor_opp_2024"
+      ],
+      "recall_at_1": 1.0,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "recall_at_10": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_5": 1.0,
+      "ndcg_at_10": 1.0
+    },
+    {
+      "id": "q18",
+      "query": "освітня програма інтелектуальний аналіз даних 2024",
+      "relevant_sources": [
+        "bachelor_opp_2024"
+      ],
+      "ranked_sources": [
+        "bachelor_opp_2024",
+        "bachelor_programs"
+      ],
+      "recall_at_1": 1.0,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "recall_at_10": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_5": 1.0,
+      "ndcg_at_10": 1.0
+    },
+    {
+      "id": "q19",
+      "query": "штучний інтелект машинне навчання Python",
+      "relevant_sources": [
+        "home",
+        "presentation",
+        "presentation_pdf"
+      ],
+      "ranked_sources": [
+        "applicant_site",
+        "bachelor_opp_2025",
+        "presentation_pdf",
+        "f4_program"
+      ],
+      "recall_at_1": 0.0,
+      "recall_at_3": 0.3333333333333333,
+      "recall_at_5": 0.3333333333333333,
+      "recall_at_10": 0.3333333333333333,
+      "reciprocal_rank": 0.3333333333333333,
+      "ndcg_at_5": 0.23463936301137822,
+      "ndcg_at_10": 0.23463936301137822
+    },
+    {
+      "id": "q20",
+      "query": "графік навчального процесу",
+      "relevant_sources": [
+        "academic_calendar"
+      ],
+      "ranked_sources": [
+        "academic_calendar",
+        "consultations",
+        "data_analysis_124",
+        "f4_program",
+        "curriculum_master",
+        "curriculum_postgraduate",
+        "curriculum_bachelor",
+        "academic_research_program",
+        "infrastructure",
+        "bachelor_opp_2024"
+      ],
+      "recall_at_1": 1.0,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "recall_at_10": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_5": 1.0,
+      "ndcg_at_10": 1.0
+    }
+  ]
+}

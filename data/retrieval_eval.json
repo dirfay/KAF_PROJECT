@@ -1,0 +1,147 @@
+[
+	{
+		"id": "q01",
+		"query": "контакти кафедри",
+		"relevant_sources": [
+			"contacts"
+		]
+	},
+	{
+		"id": "q02",
+		"query": "номер телефону кафедри",
+		"relevant_sources": [
+			"contacts"
+		]
+	},
+	{
+		"id": "q03",
+		"query": "хто працює на кафедрі",
+		"relevant_sources": [
+			"staff"
+		]
+	},
+	{
+		"id": "q04",
+		"query": "новини кафедри",
+		"relevant_sources": [
+			"news"
+		]
+	},
+	{
+		"id": "q05",
+		"query": "освітня програма бакалавра",
+		"relevant_sources": [
+			"bachelor_programs",
+			"bachelor_opp_2025"
+		]
+	},
+	{
+		"id": "q06",
+		"query": "штучний інтелект і технології аналізу даних",
+		"relevant_sources": [
+			"f4_program",
+			"bachelor_opp_2025"
+		]
+	},
+	{
+		"id": "q07",
+		"query": "магістерська програма системний аналіз",
+		"relevant_sources": [
+			"master_programs",
+			"master_opp_2024"
+		]
+	},
+	{
+		"id": "q08",
+		"query": "навчальні плани бакалавра",
+		"relevant_sources": [
+			"curriculum_bachelor"
+		]
+	},
+	{
+		"id": "q09",
+		"query": "навчальні дисципліни бакалавр",
+		"relevant_sources": [
+			"disciplines_bachelor"
+		]
+	},
+	{
+		"id": "q10",
+		"query": "правила вступу до ТНТУ",
+		"relevant_sources": [
+			"admission_rules"
+		]
+	},
+	{
+		"id": "q11",
+		"query": "документи для вступу",
+		"relevant_sources": [
+			"admission_documents"
+		]
+	},
+	{
+		"id": "q12",
+		"query": "вартість навчання",
+		"relevant_sources": [
+			"tuition_prices"
+		]
+	},
+	{
+		"id": "q13",
+		"query": "калькулятор балів НМТ",
+		"relevant_sources": [
+			"nmt_calculator"
+		]
+	},
+	{
+		"id": "q14",
+		"query": "партнери кафедри",
+		"relevant_sources": [
+			"partners"
+		]
+	},
+	{
+		"id": "q15",
+		"query": "матеріально технічна база кафедри",
+		"relevant_sources": [
+			"infrastructure"
+		]
+	},
+	{
+		"id": "q16",
+		"query": "стандарт спеціальності 124 системний аналіз",
+		"relevant_sources": [
+			"master_standard_2021"
+		]
+	},
+	{
+		"id": "q17",
+		"query": "освітня програма системний аналіз 2024",
+		"relevant_sources": [
+			"master_opp_2024"
+		]
+	},
+	{
+		"id": "q18",
+		"query": "освітня програма інтелектуальний аналіз даних 2024",
+		"relevant_sources": [
+			"bachelor_opp_2024"
+		]
+	},
+	{
+		"id": "q19",
+		"query": "штучний інтелект машинне навчання Python",
+		"relevant_sources": [
+			"home",
+			"presentation",
+			"presentation_pdf"
+		]
+	},
+	{
+		"id": "q20",
+		"query": "графік навчального процесу",
+		"relevant_sources": [
+			"academic_calendar"
+		]
+	}
+]
