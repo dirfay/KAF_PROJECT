@@ -15,7 +15,7 @@ def main() -> None:
     )
 
     print("=" * 80)
-    print("RETRIEVAL PIPELINE TEST")
+    print("REAL RETRIEVAL PIPELINE TEST — E3")
     print("=" * 80)
 
     print()
@@ -23,9 +23,13 @@ def main() -> None:
     print(result["query"])
 
     print()
+    print("METHOD:")
+    print(result["method"])
+
+    print()
+    print("LATENCY:")
     print(
-        "LATENCY:",
-        f"{result['latency_seconds']:.3f}s",
+        f"{result['latency_seconds']:.3f}s"
     )
 
     print()
@@ -34,27 +38,41 @@ def main() -> None:
     for item in result["results"]:
         print(
             f"#{item['rank']} "
-            f"{item['source_id']} "
-            f"reranker="
-            f"{item['reranker_score']:.6f}"
+            f"{item['source_id']} | "
+            f"RRF={item['rrf_score']:.6f} | "
+            f"BM25={item['bm25_rank']} | "
+            f"Semantic={item['semantic_rank']}"
         )
 
     print()
     print("SOURCES:")
 
-    for source in format_sources(result):
+    for source in format_sources(
+        result
+    ):
         print(
-            source["source_id"],
-            "—",
-            source["title"],
+            f"- {source['source_id']} — "
+            f"{source['title']}"
         )
+
+        if source.get("url"):
+            print(
+                f"  URL: {source['url']}"
+            )
+
+        if source.get("page"):
+            print(
+                f"  Page: {source['page']}"
+            )
 
     print()
     print("CONTEXT:")
+    print("-" * 80)
+
     print(
         build_context(
             result,
-            max_chunks=3,
+            max_chunks=5,
         )
     )
 

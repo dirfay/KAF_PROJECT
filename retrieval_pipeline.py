@@ -3,7 +3,7 @@ from __future__ import annotations
 import time
 from typing import Any
 
-from reranker import reranked_hybrid_search
+from hybrid_search import hybrid_search
 
 
 def retrieve(
@@ -12,44 +12,36 @@ def retrieve(
     top_k: int = 5,
 ) -> dict[str, Any]:
     """
-    Єдина точка входу для retrieval-рівня.
+    Робочий retrieval pipeline E3.
 
-    Pipeline:
-
-        query
-          ↓
-        BM25
-          +
-        Semantic
-          ↓
-        RRF
-          ↓
-        Reranker
-          ↓
-        TOP-K
+    query
+      ↓
+    BM25 + Semantic
+      ↓
+    RRF
+      ↓
+    TOP-K
     """
 
-    query = query.strip()
+    query = (query or "").strip()
 
     if not query:
         return {
             "query": query,
             "results": [],
             "latency_seconds": 0.0,
+            "method": "hybrid_rrf",
         }
 
     started = time.perf_counter()
 
-    results = reranked_hybrid_search(
+    results = hybrid_search(
         query,
         candidates=candidates,
         top_k=top_k,
     )
 
-    latency = (
-        time.perf_counter()
-        - started
-    )
+    latency = time.perf_counter() - started
 
     normalized_results = []
 
@@ -57,7 +49,10 @@ def retrieve(
         results,
         start=1,
     ):
-        record = result["record"]
+        record = result.get(
+            "record",
+            {},
+        )
 
         normalized_results.append(
             {
@@ -68,6 +63,9 @@ def retrieve(
                 ),
                 "title": record.get(
                     "title"
+                ),
+                "url": record.get(
+                    "url"
                 ),
                 "section": record.get(
                     "section"
@@ -82,10 +80,6 @@ def retrieve(
                 "metadata": record.get(
                     "metadata",
                     {},
-                ),
-                "reranker_score": result.get(
-                    "reranker_score",
-                    0.0,
                 ),
                 "rrf_score": result.get(
                     "rrf_score",
@@ -110,6 +104,7 @@ def retrieve(
         "query": query,
         "results": normalized_results,
         "latency_seconds": latency,
+        "method": "hybrid_rrf",
     }
 
 
@@ -118,7 +113,10 @@ def build_context(
     max_chunks: int = 5,
 ) -> str:
     """
-    Формує текстовий контекст для майбутнього RAG.
+    Формує контекст для RAG.
+
+    Кожен chunk отримує номер [1], [2], ...
+    щоб LLM могла посилатися на джерело.
     """
 
     chunks = retrieval_result.get(
@@ -128,7 +126,10 @@ def build_context(
 
     parts = []
 
-    for item in chunks[:max_chunks]:
+    for index, item in enumerate(
+        chunks[:max_chunks],
+        start=1,
+    ):
         source_id = item.get(
             "source_id",
             "",
@@ -148,10 +149,14 @@ def build_context(
             "page"
         )
 
+        url = item.get(
+            "url"
+        )
+
         text = item.get(
             "text",
             "",
-        )
+        ).strip()
 
         header_parts = []
 
@@ -180,7 +185,7 @@ def build_context(
         )
 
         parts.append(
-            f"[{header}]\n{text}"
+            f"[{index}] {header}\n{text}"
         )
 
     return "\n\n".join(parts)
@@ -190,12 +195,10 @@ def format_sources(
     retrieval_result: dict[str, Any],
 ) -> list[dict[str, Any]]:
     """
-    Готує компактний список джерел
-    для повернення через API.
+    Формує список джерел для API/UI.
     """
 
     sources = []
-
     seen = set()
 
     for item in retrieval_result.get(
@@ -220,6 +223,9 @@ def format_sources(
                 "title": item.get(
                     "title"
                 ),
+                "url": item.get(
+                    "url"
+                ),
                 "section": item.get(
                     "section"
                 ),
@@ -227,7 +233,7 @@ def format_sources(
                     "page"
                 ),
                 "score": item.get(
-                    "reranker_score",
+                    "rrf_score",
                     0.0,
                 ),
             }
