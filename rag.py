@@ -18,39 +18,116 @@ MODEL_NAME = "qwen3:4b-instruct"
 
 REQUEST_TIMEOUT = 300
 
+RAG_CONTEXT_CHUNKS = 2
 
-SYSTEM_PROMPT = """
-Ти — інформаційний асистент кафедри систем
-штучного інтелекту та аналізу даних ТНТУ.
+MAX_CONTEXT_BLOCK_CHARS = 1000
 
-Відповідай тільки на основі переданого контексту.
-Не вигадуй факти, дати, адреси, телефони,
-електронні адреси, освітні програми, прізвища
-викладачів або умови вступу.
+NUM_PREDICT = 160
 
-Якщо контексту недостатньо — прямо скажи про це.
-Відповідай українською мовою.
-Не показуй процес міркування.
-
-Для використаних джерел використовуй тільки номери
-у форматі [1], [2], [3], які відповідають КОНТЕКСТУ.
-Не створюй вигаданих джерел.
-"""
+NUM_CTX = 2048
 
 
-def _remove_urls_from_context(context: str) -> str:
+SYSTEM_PROMPT = (
+    "Ти інформаційний асистент кафедри систем "
+    "штучного інтелекту та аналізу даних ТНТУ. "
+    "Відповідай лише за КОНТЕКСТОМ. "
+    "Не вигадуй фактів. "
+    "Якщо даних недостатньо, скажи про це. "
+    "Відповідай українською. "
+    "Не показуй міркування. "
+    "Джерела позначай тільки номерами [1], [2]."
+)
+
+
+def _is_staff_question(question: str) -> bool:
     """
-    Прибирає URL із тексту контексту перед передачею LLM.
+    Визначає запити, для яких основним джерелом
+    має бути сторінка колективу кафедри.
+    """
 
-    URL залишаються в окремому полі sources і тому
-    не втрачаються для frontend.
+    question = question.lower()
+
+    patterns = (
+        "хто викладає",
+        "хто викладач",
+        "хто працює на кафедрі",
+        "викладачі кафедри",
+        "викладачі",
+        "викладач",
+        "колектив кафедри",
+        "працівники кафедри",
+        "співробітники кафедри",
+        "склад кафедри",
+        "хто входить до складу кафедри",
+    )
+
+    return any(pattern in question for pattern in patterns)
+
+
+def _select_rag_results(
+    question: str,
+    retrieval: dict[str, Any],
+    max_chunks: int = RAG_CONTEXT_CHUNKS,
+) -> dict[str, Any]:
+    """
+    Вибирає найкорисніші результати для RAG-контексту.
+
+    Сам hybrid retrieval не змінюється.
+    Ми лише формуємо компактний контекст для LLM.
+    """
+
+    results = list(
+        retrieval.get(
+            "results",
+            [],
+        )
+    )
+
+    if not results:
+        selected = dict(retrieval)
+        selected["results"] = []
+        return selected
+
+    selected_results: list[dict[str, Any]] = []
+
+    if _is_staff_question(question):
+        staff_results = [
+            result
+            for result in results
+            if result.get("source_id") == "staff"
+        ]
+
+        other_results = [
+            result
+            for result in results
+            if result.get("source_id") != "staff"
+        ]
+
+        selected_results = (
+            staff_results + other_results
+        )[:max_chunks]
+
+    else:
+        selected_results = results[:max_chunks]
+
+    selected = dict(retrieval)
+    selected["results"] = selected_results
+
+    return selected
+
+
+def _remove_urls_from_context(
+    context: str,
+) -> str:
+    """
+    Прибирає URL із контексту перед передачею LLM.
+
+    URL залишаються в sources.
     """
 
     if not context:
         return ""
 
-    # Приклад:
-    # | url=https://kaf-ai.tntu.edu.ua/news/
     context = re.sub(
         r"\s*\|\s*url=https?://\S+",
         "",
@@ -58,8 +135,6 @@ def _remove_urls_from_context(context: str) -> str:
         flags=re.IGNORECASE,
     )
 
-    # Додатково прибираємо окремі рядки URL,
-    # якщо вони трапляються у контексті.
     context = re.sub(
         r"^\s*https?://\S+\s*$",
         "",
@@ -70,26 +145,68 @@ def _remove_urls_from_context(context: str) -> str:
     return context.strip()
 
 
+def _compact_context(
+    context: str,
+    max_block_chars: int = MAX_CONTEXT_BLOCK_CHARS,
+) -> str:
+    """
+    Додатково стискає контекст перед LLM.
+
+    Контекст build_context складається з блоків:
+    [1] ...
+    [2] ...
+
+    Кожен блок обмежується за кількістю символів.
+    """
+
+    context = (context or "").strip()
+
+    if not context:
+        return ""
+
+    context = _remove_urls_from_context(context)
+
+    blocks = re.split(
+        r"\n\s*\n(?=\[\d+\]\s)",
+        context,
+    )
+
+    compact_blocks: list[str] = []
+
+    for block in blocks:
+        block = block.strip()
+
+        if not block:
+            continue
+
+        if len(block) > max_block_chars:
+            block = (
+                block[:max_block_chars]
+                .rsplit(" ", 1)[0]
+                .strip()
+                + "..."
+            )
+
+        compact_blocks.append(block)
+
+    return "\n\n".join(compact_blocks)
+
+
 def _build_prompt(
     question: str,
     context: str,
 ) -> str:
-    return f"""
-КОНТЕКСТ БАЗИ ЗНАНЬ
-===================
-{context}
-===================
-
-ПИТАННЯ
-===================
-{question}
-===================
-
-Сформулюй коротку конкретну відповідь українською.
-Використовуй тільки наведений контекст.
-Не вигадуй інформацію.
-Посилання на джерела подавай у форматі [1], [2], [3].
-"""
+    return (
+        "КОНТЕКСТ:\n"
+        f"{context}\n\n"
+        "ПИТАННЯ:\n"
+        f"{question}\n\n"
+        "Дай коротку точну відповідь українською. "
+        "Використовуй тільки КОНТЕКСТ. "
+        "Не додавай припущень. "
+        "Якщо наводиш факти з джерел, "
+        "постав відповідний номер [1] або [2]."
+    )
 
 
 def _clean_answer(
@@ -140,16 +257,13 @@ def generate_answer(
         return {
             "answer": (
                 "У базі знань не знайдено "
-                "достатньої інформації "
-                "для відповіді."
+                "достатньої інформації для відповіді."
             ),
             "model": MODEL_NAME,
             "latency_seconds": 0.0,
             "success": False,
             "error": "Порожній контекст.",
         }
-
-    context = _remove_urls_from_context(context)
 
     payload = {
         "model": MODEL_NAME,
@@ -171,7 +285,8 @@ def generate_answer(
         "keep_alive": "10m",
         "options": {
             "temperature": 0.1,
-            "num_predict": 128,
+            "num_predict": NUM_PREDICT,
+            "num_ctx": NUM_CTX,
         },
     }
 
@@ -192,16 +307,6 @@ def generate_answer(
         response.raise_for_status()
 
         data = response.json()
-
-        message = data.get(
-            "message",
-            {},
-        )
-
-        answer = message.get(
-            "content",
-            "",
-        )
 
         print()
         print("OLLAMA STATS:")
@@ -228,6 +333,16 @@ def generate_answer(
         print(
             "load_duration:",
             data.get("load_duration"),
+        )
+
+        message = data.get(
+            "message",
+            {},
+        )
+
+        answer = message.get(
+            "content",
+            "",
         )
 
         answer = _clean_answer(answer)
@@ -275,23 +390,23 @@ def generate_answer(
 def answer_with_rag(
     question: str,
     candidates: int = 20,
-    top_k: int = 3,
+    top_k: int = RAG_CONTEXT_CHUNKS,
 ) -> dict[str, Any]:
     """
-    Повний E5 pipeline:
+    Повний E5 RAG pipeline:
 
     question
-       ↓
+        ↓
     Hybrid BM25 + Semantic
-       ↓
+        ↓
     RRF
-       ↓
-    TOP-K
-       ↓
-    context
-       ↓
+        ↓
+    context selection
+        ↓
+    compact context
+        ↓
     Qwen3
-       ↓
+        ↓
     answer + sources
     """
 
@@ -300,20 +415,47 @@ def answer_with_rag(
     retrieval = retrieve(
         question,
         candidates=candidates,
-        top_k=top_k,
+        top_k=max(
+            candidates,
+            top_k,
+        ),
     )
 
-    context = build_context(
+    selected_retrieval = _select_rag_results(
+        question,
         retrieval,
         max_chunks=top_k,
     )
 
-    context = _remove_urls_from_context(
-        context
+    context = build_context(
+        selected_retrieval,
+        max_chunks=top_k,
+    )
+
+    context = _compact_context(
+        context,
     )
 
     print()
-    print("CONTEXT DIAGNOSTICS:")
+    print("RAG CONTEXT DIAGNOSTICS:")
+    print(
+        "Original retrieval results:",
+        len(
+            retrieval.get(
+                "results",
+                [],
+            )
+        ),
+    )
+    print(
+        "Selected RAG results:",
+        len(
+            selected_retrieval.get(
+                "results",
+                [],
+            )
+        ),
+    )
     print(
         "Context characters:",
         len(context),
@@ -348,7 +490,8 @@ def answer_with_rag(
             False,
         ),
         "error": llm_result.get(
-            "error"
+            "error",
+            None,
         ),
         "retrieval_method": retrieval.get(
             "method",
@@ -364,7 +507,7 @@ def answer_with_rag(
         ),
         "latency_seconds": total_latency,
         "sources": format_sources(
-            retrieval
+            selected_retrieval,
         ),
         "retrieval_results": retrieval.get(
             "results",
@@ -380,7 +523,7 @@ if __name__ == "__main__":
     result = answer_with_rag(
         question,
         candidates=20,
-        top_k=3,
+        top_k=2,
     )
 
     print("=" * 80)

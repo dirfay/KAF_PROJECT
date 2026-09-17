@@ -1,3 +1,4 @@
+from app.rag_api import router as rag_router
 from pydantic import BaseModel
 from typing import Optional
 from fastapi import FastAPI, Request, Form, HTTPException, Depends, Query
@@ -108,7 +109,11 @@ def render_template(name: str, request: Request, **ctx):
     ctx.setdefault("current_year", datetime.now().year)
     ctx.setdefault("content", load_site_content())
     ctx.setdefault("request", request)
-    return templates.TemplateResponse(name, ctx)
+    return templates.TemplateResponse(
+        request=request,
+        name=name,
+        context=ctx,
+    )
 
 
 def load_question_logs():
@@ -527,3 +532,5 @@ async def ask_endpoint(payload: AskPayload):
 
     save_question_log(q, payload.url, payload.title, "fallback", "not_found")
     return {"answer": fallback_answer, "source": "fallback"}
+
+app.include_router(rag_router)

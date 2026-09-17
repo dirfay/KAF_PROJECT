@@ -1,7 +1,7 @@
 (function () {
 	"use strict";
 
-	const ENDPOINT = "/ask";
+	const ENDPOINT = "/ask-rag";
 	const STORAGE_KEY = "kaf_assistant_chat_v2";
 	const MAX_MESSAGES = 200;
 
